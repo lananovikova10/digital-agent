@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}Report Details - Weekly Intelligence Agent{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+    <a href="/" class="text-blue-600 hover:text-blue-800 mb-4 inline-block">
+        <i class="fas fa-arrow-left mr-1"></i> Back to Reports
+    </a>
+    
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <div class="border-b pb-6 mb-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                Weekly Intelligence Report
+            </h1>
+            <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                <div>
+                    <i class="fas fa-calendar mr-1"></i>
+                    Generated: {{ report.created_at[:19].replace('T', ' ') }}
+                </div>
+                <div>
+                    <i class="fas fa-hashtag mr-1"></i>
+                    ID: {{ report.report_id }}
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4">
+                {% for topic in report.topics %}
+                <span class="bg-blue-100 text-blue-800 px-3 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-tag mr-1"></i>{{ topic }}
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="prose max-w-none">
+            <div class="report-content">
+                {{ report.content | safe }}
+            </div>
+        </div>
+
+        {% if report.sources %}
+        <div class="mt-8 border-t pt-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    <i class="fas fa-newspaper mr-2 text-blue-600"></i>Source Articles & Key Insights
+                </h2>
+                <div class="text-sm text-gray-500">
+                    {{ report.sources|length }} articles analyzed
+                </div>
+            </div>
+            <div class="space-y-6">
+                {% for source in report.sources %}
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-blue-300">
+                    <!-- Article Header -->
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                                <a href="{{ source.url }}" target="_blank" 
+                                   class="text-blue-600 hover:text-blue-800 hover:underline">
+                                    {{ source.title }}
+                                    <i class="fas fa-external-link-alt ml-1 text-sm"></i>
+                                </a>
+                            </h3>
+                            <div class="flex items-center gap-3 text-sm text-gray-600 mb-3">
+                                {% if source.source == 'hackernews' %}
+                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fab fa-hacker-news mr-1"></i>HACKER NEWS
+                                </span>
+                                {% elif source.source == 'reddit' %}
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fab fa-reddit mr-1"></i>REDDIT
+                                </span>
+                                {% elif source.source == 'twitter' %}
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fab fa-twitter mr-1"></i>X (TWITTER)
+                                </span>
+                                {% elif source.source == 'producthunt' %}
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fab fa-product-hunt mr-1"></i>PRODUCT HUNT
+                                </span>
+                                {% elif source.source == 'yc_launches' %}
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fas fa-rocket mr-1"></i>Y COMBINATOR
+                                </span>
+                                {% elif source.source == 'techcrunch' %}
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fas fa-newspaper mr-1"></i>TECHCRUNCH
+                                </span>
+                                {% else %}
+                                <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded font-medium flex items-center">
+                                    <i class="fas fa-globe mr-1"></i>{{ source.source.upper() }}
+                                </span>
+                                {% endif %}
+                                {% if source.author %}
+                                <span><i class="fas fa-user mr-1"></i>{{ source.author }}</span>
+                                {% endif %}
+                                <span><i class="fas fa-calendar mr-1"></i>{{ source.published_at[:10] }}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-gray-900 mb-1">
+                                Quality Score: {{ "%.2f"|format(source.ranking_score) }}/1.0
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-gray-500">
+                                {% if source.score %}
+                                <span><i class="fas fa-arrow-up mr-1"></i>{{ source.score }}</span>
+                                {% endif %}
+                                {% if source.comments_count %}
+                                <span><i class="fas fa-comments mr-1"></i>{{ source.comments_count }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Article Summary -->
+                    {% if source.summary %}
+                    <div class="mb-4">
+                        <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-file-text mr-2 text-blue-500"></i>Summary
+                        </h4>
+                        <div class="text-gray-700 bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                            {{ source.summary }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Key Quote -->
+                    {% if source.key_quote %}
+                    <div class="mb-4">
+                        <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-quote-left mr-2 text-indigo-500"></i>Key Quote
+                        </h4>
+                        <blockquote class="text-gray-800 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border-l-4 border-indigo-400 italic relative">
+                            <i class="fas fa-quote-left text-indigo-300 text-2xl absolute top-2 left-2 opacity-50"></i>
+                            <span class="relative z-10 pl-6">{{ source.key_quote }}</span>
+                        </blockquote>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Article Metadata -->
+                    <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-4 text-xs text-gray-500">
+                            <span><i class="fas fa-clock mr-1"></i>Published {{ source.published_at[:10] }}</span>
+                            {% if source.author %}
+                            <span><i class="fas fa-pen mr-1"></i>By {{ source.author }}</span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ source.url }}" target="_blank" 
+                           class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>Read Full Article
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.report-content {
+    white-space: pre-line;
+    line-height: 1.6;
+}
+.report-content h1, .report-content h2, .report-content h3 {
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.report-content h1 { font-size: 1.5rem; }
+.report-content h2 { font-size: 1.25rem; }
+.report-content h3 { font-size: 1.125rem; }
+</style>
+{% endblock %}

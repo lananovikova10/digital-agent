@@ -102,12 +102,33 @@ python -m src.agents.weekly_intel --topics "AI,machine learning,developer tools"
 ## Features
 
 ### 🔍 **Multi-Source Data Ingestion**
+
+#### **News & Discussion**
 - **Hacker News**: Top stories and discussions
-- **Reddit**: Relevant subreddit posts
+- **Reddit**: Relevant subreddit posts  
 - **TechCrunch**: Latest tech news and funding announcements
+- **Twitter/X**: Tech industry tweets (with API key)
+- **Bluesky**: Social media posts (with credentials)
+
+#### **Developer Content**
+- **Dev.to**: Developer articles and tutorials
+- **Stack Overflow**: Questions and answers by tags
+- **Medium**: Tech publications (Towards Data Science, Better Programming, etc.)
+- **GitHub Blog**: Official GitHub updates and features
+
+#### **Research & Analysis**
+- **arXiv**: Latest research papers in AI, ML, CS
+- **Substack**: Tech newsletters (Stratechery, Platformer, etc.)
+- **Company Blogs**: OpenAI, Anthropic, DeepMind, Meta AI via RSS
+
+#### **Video & Audio Content**
+- **YouTube Channels**: Two Minute Papers, Lex Fridman, AI Explained
+- **Podcasts**: Practical AI, TWIML, Latent Space, Machine Learning Street Talk
+
+#### **Startup Ecosystem**
 - **YC Launches**: Y Combinator startup launches
 - **Product Hunt**: New product launches (with API key)
-- **Twitter/X**: Tech industry tweets (with API key)
+- **Crunchbase**: Funding news and startup updates
 
 ### 🧠 **Intelligent Processing**
 - **Content Ranking**: ML-based scoring and relevance filtering
@@ -156,10 +177,17 @@ python -m src.agents.weekly_intel --topics "AI,machine learning,developer tools"
   - Set: `PRODUCTHUNT_API_KEY`
 
 ### Working Without API Keys
-The system works with just Hacker News and TechCrunch (no API keys required):
-- Hacker News: Always available
-- TechCrunch: RSS feed access
-- YC Launches: Web scraping
+The system works with many sources that don't require API keys:
+- **Hacker News**: Always available
+- **TechCrunch**: RSS feed access  
+- **YC Launches**: Web scraping
+- **Dev.to**: Public API
+- **Medium**: RSS feeds from publications
+- **Substack**: RSS feeds from newsletters
+- **YouTube/Podcasts**: RSS feeds
+- **Stack Overflow**: Public API
+- **arXiv**: Public API
+- **Company RSS Feeds**: OpenAI, Anthropic, GitHub, etc.
 
 ### Topics Configuration
 Edit topics in `.env` or specify when running:

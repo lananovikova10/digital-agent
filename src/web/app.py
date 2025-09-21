@@ -1,6 +1,9 @@
 """
 Web interface for the Weekly Intelligence Agent
 """
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables from .env file
+
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import requests
 import json

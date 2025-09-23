@@ -5,6 +5,7 @@ from .twitter import TwitterSource
 from .producthunt import ProductHuntSource
 from .yc_launches import YCLaunchesSource
 from .techcrunch import TechCrunchSource
+from .devto import DevToSource
 
 __all__ = [
     "SourceManager",
@@ -13,5 +14,6 @@ __all__ = [
     "TwitterSource",
     "ProductHuntSource",
     "YCLaunchesSource",
-    "TechCrunchSource"
+    "TechCrunchSource",
+    "DevToSource"
 ]

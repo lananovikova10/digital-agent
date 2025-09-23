@@ -2,6 +2,8 @@
 langgraph>=0.0.40
 langchain>=0.1.0
 langchain-openai>=0.1.0
+transformers>=4.35.0
+torch>=2.0.0
 
 # API Framework
 fastapi>=0.104.0
@@ -25,6 +27,7 @@ tweepy>=4.14.0  # Twitter/X API
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 feedparser>=6.0.10
+aiohttp>=3.8.0  # Async HTTP client for Dev.to API
 
 # Data Processing
 pandas>=2.1.0

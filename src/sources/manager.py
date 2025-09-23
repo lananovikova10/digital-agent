@@ -11,6 +11,7 @@ from .twitter import TwitterSource
 from .producthunt import ProductHuntSource
 from .yc_launches import YCLaunchesSource
 from .techcrunch import TechCrunchSource
+from .devto import DevToSource
 
 logger = structlog.get_logger()
 
@@ -25,7 +26,8 @@ class SourceManager:
             'twitter': TwitterSource(),
             'producthunt': ProductHuntSource(),
             'yc_launches': YCLaunchesSource(),
-            'techcrunch': TechCrunchSource()
+            'techcrunch': TechCrunchSource(),
+            'devto': DevToSource()
         }
     
     async def fetch_all_sources(self, topic: str, days_back: int = 7) -> List[Dict[str, Any]]:

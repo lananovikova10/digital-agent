@@ -95,35 +95,18 @@ def parse_sources_from_content(content):
             for line in lines[summary_start:]:
                 if line.strip().startswith('Summary:'):
                     summary_lines.append(line.replace('Summary:', '').strip())
-                elif line.strip().startswith('Key Quote:'):
-                    break
                 elif line.strip() and not line.strip() == '---':
                     summary_lines.append(line.strip())
             summary = ' '.join(summary_lines).strip()
         else:
             summary = ""
         
-        # Find key quote
-        key_quote_start = next((i for i, line in enumerate(lines) if line.strip().startswith('Key Quote:')), -1)
-        if key_quote_start >= 0:
-            key_quote_lines = []
-            for line in lines[key_quote_start:]:
-                if line.strip().startswith('Key Quote:'):
-                    key_quote_lines.append(line.replace('Key Quote:', '').strip())
-                elif line.strip() == '---':
-                    break
-                elif line.strip():
-                    key_quote_lines.append(line.strip())
-            key_quote = ' '.join(key_quote_lines).strip().strip('"')
-        else:
-            key_quote = ""
         
         # Decode HTML entities in all text fields
         import html
         title = html.unescape(title) if title else ""
         author = html.unescape(author) if author else ""
         summary = html.unescape(summary) if summary else ""
-        key_quote = html.unescape(key_quote) if key_quote else ""
         
         sources.append({
             'title': title,
@@ -135,7 +118,6 @@ def parse_sources_from_content(content):
             'comments_count': comments_count,
             'ranking_score': ranking_score,
             'summary': summary,
-            'key_quote': key_quote,
             'source_color': get_source_color(source)
         })
     

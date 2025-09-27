@@ -77,6 +77,18 @@ python src/web/app.py
 python populate_test_data.py
 ```
 
+### Option 2b: One-Command Local Startup
+
+```bash
+# Start both backend and web app in one command (requires parallel execution)
+uvicorn src.api.main:app --reload --port 8000 & python src/web/app.py & wait
+```
+
+> **Prerequisites:** Ensure PostgreSQL and Redis are running first:
+> ```bash
+> docker compose up -d postgres redis && sleep 30 && python scripts/init_db.py
+> ```
+
 ### Option 3: Quick Test with Sample Data
 
 ```bash

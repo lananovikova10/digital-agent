@@ -373,7 +373,6 @@ Content to analyze:
         
         Summary: {self._extract_summary(article)}
         
-        Key Quote: "{self._extract_key_quote(article)}"
         """
         
         content += f"""
@@ -418,179 +417,6 @@ Content to analyze:
         
         return summary.strip()
     
-    def _extract_key_quote(self, article: Dict[str, Any]) -> str:
-        """Extract a key quote from article content"""
-        content = article.get('content', '')
-        title = article.get('title', '')
-        
-        if not content:
-            return title
-        
-        import re
-        
-        # Helper function to check if text contains URLs or is mostly links
-        def contains_urls_or_links(text: str) -> bool:
-            url_patterns = [
-                r'https?://[^\s]+',     # HTTP URLs
-                r'www\.[^\s]+',         # www links
-                r'\[.*?\]\(.*?\)',      # Markdown links
-                r'<a\s+href=',          # HTML links
-                r'github\.com',         # GitHub references
-                r'\.com[/\s\)]',        # .com domains
-                r'\.org[/\s\)]',        # .org domains
-                r'\.net[/\s\)]',        # .net domains
-                r'\.dev[/\s\)]',        # .dev domains
-                r'x\.com/',             # X.com (Twitter)
-                r'twitter\.com',        # Twitter
-                r'linkedin\.com',       # LinkedIn
-                r'youtube\.com',        # YouTube
-                r'reddit\.com',         # Reddit
-            ]
-            
-            for pattern in url_patterns:
-                if re.search(pattern, text, re.IGNORECASE):
-                    return True
-            
-            # Check if text ends with a URL-like pattern
-            if re.search(r'https?://[^\s]+$', text.strip()):
-                return True
-                
-            return False
-        
-        # Helper function to check if text is meaningful
-        def is_meaningful_quote(text: str) -> bool:
-            text = text.strip()
-            
-            # Must be at least 25 characters and not more than 200
-            if len(text) < 25 or len(text) > 200:
-                return False
-                
-            # Must contain at least 4 words
-            words = text.split()
-            if len(words) < 4:
-                return False
-            
-            # Must not contain URLs or links
-            if contains_urls_or_links(text):
-                return False
-            
-            # Must not be mostly punctuation or numbers
-            alphanumeric_chars = sum(c.isalnum() for c in text)
-            if alphanumeric_chars < len(text) * 0.6:
-                return False
-            
-            # Must not be just technical jargon or code
-            code_indicators = ['function', 'class', 'import', 'def ', 'var ', 'const ', '{}', '[]', '()', '=>']
-            if any(indicator in text.lower() for indicator in code_indicators):
-                return False
-            
-            # Should contain some common English words
-            common_words = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by']
-            if not any(word.lower() in text.lower() for word in common_words):
-                return False
-                
-            return True
-        
-        # Clean content by removing obvious URLs and links first
-        cleaned_content = content
-        # Remove markdown links
-        cleaned_content = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', cleaned_content)
-        # Remove HTML tags
-        cleaned_content = re.sub(r'<[^>]+>', '', cleaned_content)
-        # Remove standalone URLs
-        cleaned_content = re.sub(r'https?://[^\s]+', '', cleaned_content)
-        
-        # Look for quoted text first
-        quotes = re.findall(r'"([^"]*)"', cleaned_content)
-        if quotes:
-            # Filter and return the longest meaningful quote
-            meaningful_quotes = [q for q in quotes if is_meaningful_quote(q)]
-            if meaningful_quotes:
-                return self._clean_quote_from_urls(max(meaningful_quotes, key=len))
-        
-        # Look for sentences that start with key phrases
-        key_phrases = [
-            'according to', 'the company', 'researchers found', 'the study shows',
-            'experts believe', 'the report states', 'analysis reveals', 'data shows',
-            'the team', 'scientists discovered', 'the research', 'findings suggest'
-        ]
-        
-        sentences = re.split(r'[.!?]+', cleaned_content)
-        for sentence in sentences:
-            sentence = sentence.strip()
-            if any(phrase in sentence.lower() for phrase in key_phrases):
-                if is_meaningful_quote(sentence):
-                    return self._clean_quote_from_urls(sentence)
-        
-        # Look for sentences with key action terms
-        key_terms = [
-            'announced', 'released', 'launched', 'developed', 'created', 'built', 
-            'shows', 'demonstrates', 'reveals', 'introduces', 'features', 'offers',
-            'enables', 'allows', 'provides', 'supports', 'includes', 'delivers',
-            'explained', 'stated', 'mentioned', 'noted', 'said', 'reported'
-        ]
-        
-        for sentence in sentences:
-            sentence = sentence.strip()
-            if (any(term in sentence.lower() for term in key_terms) and 
-                is_meaningful_quote(sentence)):
-                return self._clean_quote_from_urls(sentence)
-        
-        # Look for descriptive sentences (avoid questions and commands)
-        for sentence in sentences:
-            sentence = sentence.strip()
-            if (not sentence.endswith('?') and 
-                not sentence.lower().startswith(('click', 'visit', 'see', 'check')) and
-                is_meaningful_quote(sentence)):
-                return self._clean_quote_from_urls(sentence)
-        
-        # Look for the first meaningful paragraph
-        paragraphs = cleaned_content.split('\n')
-        for paragraph in paragraphs:
-            paragraph = paragraph.strip()
-            if len(paragraph) > 50:  # Substantial paragraph
-                # Take first sentence of the paragraph
-                first_sentence = re.split(r'[.!?]', paragraph)[0].strip()
-                if is_meaningful_quote(first_sentence):
-                    return self._clean_quote_from_urls(first_sentence)
-        
-        # Final fallback - try to extract meaningful content from title + first part of content
-        combined = f"{title}. {cleaned_content[:200]}"
-        sentences = re.split(r'[.!?]+', combined)
-        for sentence in sentences[1:]:  # Skip title
-            sentence = sentence.strip()
-            if is_meaningful_quote(sentence):
-                return self._clean_quote_from_urls(sentence)
-        
-        # Last resort - return a cleaned version of the title
-        return self._clean_quote_from_urls(title)
-    
-    def _clean_quote_from_urls(self, text: str) -> str:
-        """Clean a quote by removing URLs and link artifacts"""
-        import re
-        
-        # Remove URLs
-        text = re.sub(r'https?://[^\s]+', '', text)
-        text = re.sub(r'www\.[^\s]+', '', text)
-        
-        # Remove markdown link syntax
-        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
-        
-        # Remove HTML tags
-        text = re.sub(r'<[^>]+>', '', text)
-        
-        # Remove common URL artifacts
-        text = re.sub(r'x\.com/[^\s]+', '', text)
-        text = re.sub(r'github\.com[^\s]*', '', text)
-        
-        # Clean up extra whitespace and punctuation
-        text = re.sub(r'\s+', ' ', text)
-        text = text.strip()
-        
-        # Remove trailing periods if they're at the end after URL removal
-        text = text.rstrip('.')
-        
-        return text
 
     def _generate_fallback_summary(self, ranked_articles: List[Dict[str, Any]], topics: List[str]) -> Dict[str, Any]:
         """Generate a basic summary without LLM"""
@@ -683,7 +509,6 @@ The following articles were analyzed to generate this report. Each entry include
             ranking_score = article.get('ranking_score', 0)
             
             summary = self._extract_summary(article)
-            key_quote = self._extract_key_quote(article)
             
             sources_section += f"""[{i}] {title}
     Source: {source} | Author: {author} | Published: {published_at}
@@ -691,8 +516,6 @@ The following articles were analyzed to generate this report. Each entry include
     URL: {url}
     
     Summary: {summary}
-    
-    Key Quote: "{key_quote}"
     
     ---
     

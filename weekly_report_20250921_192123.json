@@ -1,0 +1,1152 @@
+{
+  "id": "report_20250921_192123",
+  "created_at": "2025-09-21T19:21:23.937915",
+  "topics": [
+    "MCP",
+    "AI for software developers"
+  ],
+  "summary": "This weekly intelligence report covers 2 main topics: MCP, AI for software developers. We analyzed 131 articles from 14 sources, selecting the top 50 most relevant articles. The most covered topic was 'MCP' with 49 articles. The most productive source was devto with 23 articles in the final selection. Our newly integrated sources contributed 30 articles to this report, significantly expanding our coverage.",
+  "articles": [
+    {
+      "title": "R MCP Server",
+      "content": "",
+      "url": "https://github.com/finite-sample/rmcp",
+      "author": "neehao",
+      "published_at": "2025-09-17 02:18:54",
+      "source": "hackernews",
+      "score": 105,
+      "comments_count": 15,
+      "tags": [
+        "story",
+        "author_neehao",
+        "story_45270015"
+      ],
+      "metadata": {
+        "hn_id": "45270015",
+        "story_id": 45270015
+      },
+      "topic": "MCP",
+      "relevance_score": 2.1
+    },
+    {
+      "title": "Show HN: AI-powered web service combining FastAPI, Pydantic-AI, and MCP servers",
+      "content": "Hey all!\nI recently gave a workshop talk at PyCon Greece 2025 about building production-ready agent systems.<p>To check the workshop, I put together a demo repo: (I will add the slides too soon in my blog: <a href=\"https:&#x2F;&#x2F;www.petrostechchronicles.com&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.petrostechchronicles.com&#x2F;</a>)\n<a href=\"https:&#x2F;&#x2F;github.com&#x2F;Aherontas&#x2F;Pycon_Greece_2025_Presentation_Agents\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;Aherontas&#x2F;Pycon_Greece_2025_Presentation_...</a><p>The idea was to show how multiple AI agents can collaborate using FastAPI + Pydantic-AI, with protocols like MCP (Model Context Protocol) and A2A (Agent-to-Agent) for safe communication and orchestration.<p>Features:<p>- Multiple agents running in containers<p>- MCP servers (Brave search, GitHub, filesystem, etc.) as tools<p>- A2A communication between services<p>- Minimal UI for experimentation for Tech Trend - repo analysis<p>I built this repo because most agent frameworks look great in isolated demos, but fall apart when you try to glue agents together into a real application. My goal was to help people experiment with these patterns and move closer to real-world use cases.<p>It\u2019s not production-grade, but would love feedback, criticism, or war stories from anyone who\u2019s tried building actual multi-agent systems.\nBig questions:<p>Do you think agent-to-agent protocols like MCP&#x2F;A2A will stick?<p>Or will the future be mostly single powerful LLMs with plugin stacks?<p>Thanks \u2014 excited to hear what the HN crowd thinks!",
+      "url": "https://github.com/Aherontas/Pycon_Greece_2025_Presentation_Agents",
+      "author": "Aherontas",
+      "published_at": "2025-09-14 23:17:56",
+      "source": "hackernews",
+      "score": 45,
+      "comments_count": 24,
+      "tags": [
+        "story",
+        "author_Aherontas",
+        "story_45243320",
+        "show_hn"
+      ],
+      "metadata": {
+        "hn_id": "45243320",
+        "story_id": 45243320
+      },
+      "topic": "MCP",
+      "relevance_score": 1.73
+    },
+    {
+      "title": "Show HN: MCP Server Installation Instructions Generator",
+      "content": "Hey HN, we\u2019ve been experimenting a lot with MCP servers lately, and one of the most time-consuming challenges has been connecting MCP clients to remote MCP servers. To solve this, we built a library that generates them on the fly, enabling 1-click installation buttons and links for most clients out there.<p>Feel free to try out the generator and use it to improve the README of your remote MCP server with the generated markdown. You can even configure the library to return HTML instructions if someone accesses your remote MCP server via the web.",
+      "url": "https://hyprmcp.com/mcp-install-instructions-generator/",
+      "author": "pmig",
+      "published_at": "2025-09-15 16:33:14",
+      "source": "hackernews",
+      "score": 22,
+      "comments_count": 6,
+      "tags": [
+        "story",
+        "author_pmig",
+        "story_45250200",
+        "show_hn"
+      ],
+      "metadata": {
+        "hn_id": "45250200",
+        "story_id": 45250200
+      },
+      "topic": "MCP",
+      "relevance_score": 1.14
+    },
+    {
+      "title": "MCP Server Could Have Been a JSON File",
+      "content": "",
+      "url": "https://materializedview.io/p/mcp-server-could-have-been-json-file",
+      "author": "reenorap",
+      "published_at": "2025-09-20 06:07:12",
+      "source": "hackernews",
+      "score": 21,
+      "comments_count": 6,
+      "tags": [
+        "story",
+        "author_reenorap",
+        "story_45310276"
+      ],
+      "metadata": {
+        "hn_id": "45310276",
+        "story_id": 45310276
+      },
+      "topic": "MCP",
+      "relevance_score": 1.13
+    },
+    {
+      "title": "Show HN: Pgmcp, an MCP server to query any Postgres database in natural language",
+      "content": "",
+      "url": "https://github.com/subnetmarco/pgmcp",
+      "author": "fosk",
+      "published_at": "2025-09-17 22:27:29",
+      "source": "hackernews",
+      "score": 18,
+      "comments_count": 6,
+      "tags": [
+        "story",
+        "author_fosk",
+        "story_45280980",
+        "show_hn"
+      ],
+      "metadata": {
+        "hn_id": "45280980",
+        "story_id": 45280980
+      },
+      "topic": "MCP",
+      "relevance_score": 1.1
+    },
+    {
+      "title": "Show HN: Nanobot \u2013 Turn MCP servers into full AI agents",
+      "content": "Today we&#x27;re releasing Nanobot an open-source framework for building AI agents on top of the Model Context Protocol (MCP).<p>MCP servers are a great way to expose structured tools, but they\u2019re usually just that\u2014collections of functions. Nanobot makes it simple to wrap any MCP server with reasoning, a system prompt, and orchestration so it behaves like a real agent. Even better, Nanobot fully supports MCP-UI, so agents can pass rich interactive components (forms, dashboards, even mini-apps) directly into chat.<p>A simple example: if you had a Blackjack MCP server with tools like deal, bet, and hit, you could wrap it with Nanobot to create a dealer agent that knows how to explain the game, guide a player, and render an interactive Blackjack table inside chat.<p>We built this because we wanted agents that go beyond text and function calls, into actual interactive experiences\u2014something useful for everything from games to e-commerce to developer tools.<p>Code is on GitHub: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;nanobot-ai&#x2F;nanobot\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;nanobot-ai&#x2F;nanobot</a><p>Live demo (Blackjack): <a href=\"https:&#x2F;&#x2F;blackjack.nanobot.ai\" rel=\"nofollow\">https:&#x2F;&#x2F;blackjack.nanobot.ai</a><p>We\u2019d love feedback from this community\u2014on the framework, the design, and what you\u2019d like to see next.",
+      "url": "https://www.nanobot.ai/",
+      "author": "smw355",
+      "published_at": "2025-09-18 21:46:07",
+      "source": "hackernews",
+      "score": 23,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_smw355",
+        "story_45294107",
+        "show_hn"
+      ],
+      "metadata": {
+        "hn_id": "45294107",
+        "story_id": 45294107
+      },
+      "topic": "MCP",
+      "relevance_score": 1.03
+    },
+    {
+      "title": "Show HN: MCP for Ec2instances.info",
+      "content": "",
+      "url": "https://instances-mcp.vantage.sh/",
+      "author": "StratusBen",
+      "published_at": "2025-09-15 21:20:32",
+      "source": "hackernews",
+      "score": 6,
+      "comments_count": 1,
+      "tags": [
+        "story",
+        "author_StratusBen",
+        "story_45253835",
+        "show_hn"
+      ],
+      "metadata": {
+        "hn_id": "45253835",
+        "story_id": 45253835
+      },
+      "topic": "MCP",
+      "relevance_score": 0.88
+    },
+    {
+      "title": "New Python CLI Tool Catches MCP Server Issues Before Agents Do",
+      "content": "",
+      "url": "https://thenewstack.io/new-python-cli-tool-catches-mcp-server-issues-before-agents-do/",
+      "author": "CrankyBear",
+      "published_at": "2025-09-17 23:55:53",
+      "source": "hackernews",
+      "score": 4,
+      "comments_count": 1,
+      "tags": [
+        "story",
+        "author_CrankyBear",
+        "story_45281853"
+      ],
+      "metadata": {
+        "hn_id": "45281853",
+        "story_id": 45281853
+      },
+      "topic": "MCP",
+      "relevance_score": 0.86
+    },
+    {
+      "title": "Official MCP Registry Client",
+      "content": "",
+      "url": "https://github.com/cybertheory/mcpkit",
+      "author": "cybertheory",
+      "published_at": "2025-09-17 23:41:13",
+      "source": "hackernews",
+      "score": 2,
+      "comments_count": 2,
+      "tags": [
+        "story",
+        "author_cybertheory",
+        "story_45281716"
+      ],
+      "metadata": {
+        "hn_id": "45281716",
+        "story_id": 45281716
+      },
+      "topic": "MCP",
+      "relevance_score": 0.86
+    },
+    {
+      "title": "Examples of lethal trifecta based MCP exploits",
+      "content": "",
+      "url": "https://www.tramlines.io/blog",
+      "author": "coderinsan",
+      "published_at": "2025-09-16 00:05:23",
+      "source": "hackernews",
+      "score": 2,
+      "comments_count": 2,
+      "tags": [
+        "story",
+        "author_coderinsan",
+        "story_45255541"
+      ],
+      "metadata": {
+        "hn_id": "45255541",
+        "story_id": 45255541
+      },
+      "topic": "MCP",
+      "relevance_score": 0.86
+    },
+    {
+      "title": "The GitHub MCP Registry: The Fastest Way to Discover MCP Servers",
+      "content": "",
+      "url": "https://github.blog/ai-and-ml/github-copilot/meet-the-github-mcp-registry-the-fastest-way-to-discover-mcp-servers/",
+      "author": "aratahikaru5",
+      "published_at": "2025-09-17 09:33:51",
+      "source": "hackernews",
+      "score": 3,
+      "comments_count": 1,
+      "tags": [
+        "story",
+        "author_aratahikaru5",
+        "story_45272930"
+      ],
+      "metadata": {
+        "hn_id": "45272930",
+        "story_id": 45272930
+      },
+      "topic": "MCP",
+      "relevance_score": 0.85
+    },
+    {
+      "title": "Show HN: PageIndex MCP \u2013 Chat with Long PDFs on Claude or Cursor",
+      "content": "Naively uploading long PDFs to Claude will go beyond the context limit. This PageIndex MCP uses Vectorless RAG to allow you to chat with super-long PDFs. Any feedback is welcome.",
+      "url": "https://github.com/VectifyAI/pageindex-mcp",
+      "author": "mingtianzhang",
+      "published_at": "2025-09-18 19:02:56",
+      "source": "hackernews",
+      "score": 4,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_mingtianzhang",
+        "story_45292121",
+        "show_hn"
+      ],
+      "metadata": {
+        "hn_id": "45292121",
+        "story_id": 45292121
+      },
+      "topic": "MCP",
+      "relevance_score": 0.84
+    },
+    {
+      "title": "Building MCP servers with Docker: NetworkChuck's tutorial and starter kit",
+      "content": "",
+      "url": "https://github.com/theNetworkChuck/docker-mcp-tutorial",
+      "author": "mustaphah",
+      "published_at": "2025-09-15 15:27:40",
+      "source": "hackernews",
+      "score": 4,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_mustaphah",
+        "story_45249464"
+      ],
+      "metadata": {
+        "hn_id": "45249464",
+        "story_id": 45249464
+      },
+      "topic": "MCP",
+      "relevance_score": 0.84
+    },
+    {
+      "title": "Draft of the Next MCP Specification",
+      "content": "",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/tree/main/docs/specification/draft",
+      "author": "mooreds",
+      "published_at": "2025-09-20 15:59:08",
+      "source": "hackernews",
+      "score": 2,
+      "comments_count": 1,
+      "tags": [
+        "story",
+        "author_mooreds",
+        "story_45313485"
+      ],
+      "metadata": {
+        "hn_id": "45313485",
+        "story_id": 45313485
+      },
+      "topic": "MCP",
+      "relevance_score": 0.84
+    },
+    {
+      "title": "How to Test MCP Servers",
+      "content": "",
+      "url": "https://codely.com/en/blog/how-to-test-mcp-servers",
+      "author": "rgomezcasas",
+      "published_at": "2025-09-18 18:32:39",
+      "source": "hackernews",
+      "score": 3,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_rgomezcasas",
+        "story_45291707"
+      ],
+      "metadata": {
+        "hn_id": "45291707",
+        "story_id": 45291707
+      },
+      "topic": "MCP",
+      "relevance_score": 0.83
+    },
+    {
+      "title": "MCP as a Service: an open MCP server management platform",
+      "content": "",
+      "url": "https://manuel.kiessling.net/2025/09/16/introducing-mcp-as-a-service/",
+      "author": "furkansahin",
+      "published_at": "2025-09-17 16:30:05",
+      "source": "hackernews",
+      "score": 3,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_furkansahin",
+        "story_45276273"
+      ],
+      "metadata": {
+        "hn_id": "45276273",
+        "story_id": 45276273
+      },
+      "topic": "MCP",
+      "relevance_score": 0.83
+    },
+    {
+      "title": "How to Install the Official Atlassian MCP Server for Claude Code",
+      "content": "",
+      "url": "https://blog.johnys.io/how-to-install-the-official-atlassian-mcp-server-for-claude-code-bitbucket-jira-and-confluence/",
+      "author": "johnys",
+      "published_at": "2025-09-16 02:36:20",
+      "source": "hackernews",
+      "score": 3,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_johnys",
+        "story_45256672"
+      ],
+      "metadata": {
+        "hn_id": "45256672",
+        "story_id": 45256672
+      },
+      "topic": "MCP",
+      "relevance_score": 0.83
+    },
+    {
+      "title": "My AI Speaks `Curl` and `Jq` \u2013 MCP Can Catch Up Later",
+      "content": "",
+      "url": "https://medium.com/@boris.churzin/my-ai-speaks-curl-and-jq-mcp-can-catch-up-later-12722a5d69db",
+      "author": "devenvdev",
+      "published_at": "2025-09-21 15:37:23",
+      "source": "hackernews",
+      "score": 2,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_devenvdev",
+        "story_45322625"
+      ],
+      "metadata": {
+        "hn_id": "45322625",
+        "story_id": 45322625
+      },
+      "topic": "MCP",
+      "relevance_score": 0.8200000000000001
+    },
+    {
+      "title": "Why and how to filter the tools from MCP servers",
+      "content": "",
+      "url": "http://blog.pamelafox.org/2025/09/filter-tools-from-mcp-servers.html",
+      "author": "pamelafox",
+      "published_at": "2025-09-20 08:15:09",
+      "source": "hackernews",
+      "score": 2,
+      "comments_count": 0,
+      "tags": [
+        "story",
+        "author_pamelafox",
+        "story_45310899"
+      ],
+      "metadata": {
+        "hn_id": "45310899",
+        "story_id": 45310899
+      },
+      "topic": "MCP",
+      "relevance_score": 0.8200000000000001
+    },
+    {
+      "title": "Next-Gen Auditing: Unlocking AWS CloudTrail with MCP Server",
+      "content": "\ud83d\udc4b Hey there, tech enthusiasts!   I'm Sarvar, a Cloud Architect with a passion for transforming...",
+      "url": "https://dev.to/aws-builders/next-gen-auditing-unlocking-aws-cloudtrail-with-mcp-server-5dll",
+      "author": "Sarvar Nadaf",
+      "published_at": "2025-09-20 16:46:35",
+      "source": "devto",
+      "score": 11,
+      "comments_count": 0,
+      "tags": [
+        "aws",
+        "ai",
+        "mcp",
+        "security"
+      ],
+      "metadata": {
+        "reading_time": 13,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fg05ek3z0di3t6qxbr9ud.png",
+        "canonical_url": "https://dev.to/aws-builders/next-gen-auditing-unlocking-aws-cloudtrail-with-mcp-server-5dll"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.81
+    },
+    {
+      "title": "Add the MCP server to the ASP.NET Core minimal API",
+      "content": "A running solution where you can add server middleware to ASP.NET Core minimal APIs           1....",
+      "url": "https://dev.to/ohalay/add-the-mcp-server-to-the-aspnet-core-minimal-api-4331",
+      "author": "ohalay",
+      "published_at": "2025-09-18 14:37:43",
+      "source": "devto",
+      "score": 4,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "tutorial",
+        "dotnet",
+        "ai"
+      ],
+      "metadata": {
+        "reading_time": 2,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyc1sz2cqq0fu3jjvkb92.png",
+        "canonical_url": "https://dev.to/ohalay/add-the-mcp-server-to-the-aspnet-core-minimal-api-4331"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.74
+    },
+    {
+      "title": "MCP Fundamentals: Your First Java Client in 30 Lines of Code",
+      "content": "In the previous post I talked about what MCP is conceptually. Today I want to show you exactly how it...",
+      "url": "https://dev.to/gazolla/mcp-fundamentals-your-first-java-client-in-30-lines-of-code-e0c",
+      "author": "Sebastiao Gazolla Jr",
+      "published_at": "2025-09-16 19:07:56",
+      "source": "devto",
+      "score": 2,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "tutorial",
+        "beginners",
+        "java"
+      ],
+      "metadata": {
+        "reading_time": 5,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/gazolla/mcp-fundamentals-your-first-java-client-in-30-lines-of-code-e0c"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.72
+    },
+    {
+      "title": "My First MCP Server: Semantic Code Search",
+      "content": "How I built a Model Context Protocol server that lets AI agents search codebases semantically using...",
+      "url": "https://dev.to/paradoxy/my-first-mcp-server-semantic-code-search-3520",
+      "author": "Ojalla",
+      "published_at": "2025-09-15 01:08:55",
+      "source": "devto",
+      "score": 2,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "ai",
+        "nlp",
+        "programming"
+      ],
+      "metadata": {
+        "reading_time": 3,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/paradoxy/my-first-mcp-server-semantic-code-search-3520"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.72
+    },
+    {
+      "title": "What is Model Context Protocol (MCP) and Why Everyone is Talking About It",
+      "content": "If you\u2019ve been following the AI space recently, you\u2019ve probably heard the term Model Context Protocol...",
+      "url": "https://dev.to/jefreesujit/what-is-model-context-protocol-mcp-and-why-everyone-is-talking-about-it-3nco",
+      "author": "Jefree Sujit",
+      "published_at": "2025-09-21 05:25:33",
+      "source": "devto",
+      "score": 1,
+      "comments_count": 0,
+      "tags": [
+        "ai",
+        "mcp",
+        "programming",
+        "beginners"
+      ],
+      "metadata": {
+        "reading_time": 4,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxmwajqb7hki65w5yvzcw.png",
+        "canonical_url": "https://dev.to/jefreesujit/what-is-model-context-protocol-mcp-and-why-everyone-is-talking-about-it-3nco"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.71
+    },
+    {
+      "title": "My Experience Publishing to the Official MCP Registry - Is It Worth It Right Now?",
+      "content": "I just went through the process of publishing my MCP server (slimcontext-mcp-server) to the new...",
+      "url": "https://dev.to/ialijr/my-experience-publishing-to-the-official-mcp-registry-is-it-worth-it-right-now-l69",
+      "author": "Ali Ibrahim",
+      "published_at": "2025-09-17 19:40:29",
+      "source": "devto",
+      "score": 1,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "ai",
+        "developer",
+        "opensource"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/ialijr/my-experience-publishing-to-the-official-mcp-registry-is-it-worth-it-right-now-l69"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.71
+    },
+    {
+      "title": "The MCP Registry Is Here - But Is It Already Too Late?",
+      "content": "Big news dropped last week that nobody's really talking about: Anthropic launched the Model Context...",
+      "url": "https://dev.to/leomarsh/the-mcp-registry-is-here-but-is-it-already-too-late-mfi",
+      "author": "Leo Marsh",
+      "published_at": "2025-09-18 16:22:22",
+      "source": "devto",
+      "score": 1,
+      "comments_count": 0,
+      "tags": [
+        "ai",
+        "discuss",
+        "mcp",
+        "opensource"
+      ],
+      "metadata": {
+        "reading_time": 3,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsvgl2hon3fcy503mnzyx.png",
+        "canonical_url": "https://dev.to/leomarsh/the-mcp-registry-is-here-but-is-it-already-too-late-mfi"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.71
+    },
+    {
+      "title": "FormEngineer evolves into... AppMaker!",
+      "content": "A few posts ago I introduced Greg.Xrm.Mcp.FormEngineer, my first MCP Server designed to enable...",
+      "url": "https://dev.to/_neronotte/formengineer-evolves-into-appmaker-10di",
+      "author": "Riccardo Gregori",
+      "published_at": "2025-09-21 16:55:27",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "powerplatform",
+        "powerfuldevs",
+        "powerapps",
+        "mcp"
+      ],
+      "metadata": {
+        "reading_time": 2,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/_neronotte/formengineer-evolves-into-appmaker-10di"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "Validate LogicApp MCP Server with BODMAS Rules",
+      "content": "In the previous article, I showed how an autonomous agent can dynamically create and deploy...",
+      "url": "https://dev.to/imdj/validate-logicapp-mcp-server-with-bodmas-rules-d44",
+      "author": "Daniel Jonathan",
+      "published_at": "2025-09-21 00:22:00",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "logicapps",
+        "azure",
+        "mcp",
+        "microsoft"
+      ],
+      "metadata": {
+        "reading_time": 2,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/imdj/validate-logicapp-mcp-server-with-bodmas-rules-d44"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "Design Patterns MCP Server: Give Your Project a Professional Touch",
+      "content": "Imagine being able to describe a software architecture problem in natural language and instantly...",
+      "url": "https://dev.to/einarcesar/design-patterns-mcp-server-give-your-project-a-professional-touch-3pjc",
+      "author": "Einar C\u00e9sar",
+      "published_at": "2025-09-20 01:57:52",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "designpatterns",
+        "mcp",
+        "ai",
+        "software"
+      ],
+      "metadata": {
+        "reading_time": 5,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwgmz0io67aaex81jinqj.png",
+        "canonical_url": "https://dev.to/einarcesar/design-patterns-mcp-server-give-your-project-a-professional-touch-3pjc"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "How to Build AI-Powered Customer Support with Laravel MCP & Database Q\\&A",
+      "content": "Customer support is changing fast\u2014and if you want real-time, accurate answers driven by your own...",
+      "url": "https://dev.to/akashdas/how-to-build-ai-powered-customer-support-with-laravel-mcp-database-qa-4ii9",
+      "author": "Akash Das",
+      "published_at": "2025-09-19 21:04:54",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "webdev",
+        "laravel",
+        "mcp",
+        "programming"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl5va3zrsu8g5xr6g8l42.webp",
+        "canonical_url": "https://dev.to/akashdas/how-to-build-ai-powered-customer-support-with-laravel-mcp-database-qa-4ii9"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "SSH MCP NPM",
+      "content": "Alolite SSH MCP Server   A Model Context Protocol (MCP) server that enables SSH remote...",
+      "url": "https://dev.to/jppradhan/ssh-mcp-npm-9k1",
+      "author": "Jyoti Prakash Pradhan",
+      "published_at": "2025-09-20 09:07:40",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "ai",
+        "mcp",
+        "npm",
+        "programming"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/jppradhan/ssh-mcp-npm-9k1"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "\ud83c\udfc6002. HTTP-TO-MCP bridge",
+      "content": "This week my biggest win was the creation of a bridge between the .NET MCP SDK and a custom HTTP...",
+      "url": "https://dev.to/0xvalacor/002-wins-of-my-week-244n",
+      "author": "Valacor",
+      "published_at": "2025-09-19 20:26:10",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "wins",
+        "softwareengineering",
+        "mcp",
+        "dotnet"
+      ],
+      "metadata": {
+        "reading_time": 2,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fj566ihexya9ffipsqvue.png",
+        "canonical_url": "https://dev.to/0xvalacor/002-wins-of-my-week-244n"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "Laravel MCP: The Next Big Leap for AI-Ready Laravel Apps",
+      "content": "The Model Context Protocol (MCP) is a new standard for integrating AI assistants like ChatGPT and...",
+      "url": "https://dev.to/akashdas/laravel-mcp-the-next-big-leap-for-ai-ready-laravel-apps-4dbf",
+      "author": "Akash Das",
+      "published_at": "2025-09-19 20:12:26",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "laravel",
+        "webdev",
+        "mcp",
+        "ai"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjv5hpg90v3kxxb5ow24a.png",
+        "canonical_url": "https://dev.to/akashdas/laravel-mcp-the-next-big-leap-for-ai-ready-laravel-apps-4dbf"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "Why MCP is a Game-Changer for DevSecOps Security & Compliance",
+      "content": "If there's one thing we can count on in today's software delivery landscape, it\u2019s the relentless push...",
+      "url": "https://dev.to/anshul_kichara/why-mcp-is-a-game-changer-for-devsecops-security-compliance-3nn2",
+      "author": "Anshul Kichara",
+      "published_at": "2025-09-18 06:34:42",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "devops",
+        "devsecops",
+        "security",
+        "mcp"
+      ],
+      "metadata": {
+        "reading_time": 4,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fq7ocbu9tl8y1wiuxptnx.jpg",
+        "canonical_url": "https://dev.to/anshul_kichara/why-mcp-is-a-game-changer-for-devsecops-security-compliance-3nn2"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "[Boost]",
+      "content": "How to secure MCP servers with Vault +...",
+      "url": "https://dev.to/bdussault/-4d6b",
+      "author": "Brian Dussault",
+      "published_at": "2025-09-17 18:37:23",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "ai",
+        "kubernetes",
+        "security"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/bdussault/-4d6b"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "Model Context Protocol (MCP): The USB-C for AI Integration",
+      "content": "Introduction  Artificial Intelligence (AI) is no longer just about building smarter models\u2014it\u2019s about...",
+      "url": "https://dev.to/shylendra_tm_ai/model-context-protocol-mcp-the-usb-c-for-ai-integration-4k5p",
+      "author": "Shylendra",
+      "published_at": "2025-09-18 01:32:01",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "programming",
+        "mcp",
+        "ai",
+        "microservices"
+      ],
+      "metadata": {
+        "reading_time": 2,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/shylendra_tm_ai/model-context-protocol-mcp-the-usb-c-for-ai-integration-4k5p"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "MCP The Series: \u0e15\u0e2d\u0e19\u0e17\u0e35\u0e48 1. MCP \u0e04\u0e37\u0e2d\u0e2d\u0e30\u0e44\u0e23? \u0e21\u0e32\u0e15\u0e23\u0e10\u0e32\u0e19\u0e01\u0e25\u0e32\u0e07\u0e40\u0e0a\u0e37\u0e48\u0e2d\u0e21\u0e42\u0e25\u0e01 AI",
+      "content": "\u0e2a\u0e27\u0e31\u0e2a\u0e14\u0e35\u0e04\u0e23\u0e31\u0e1a\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e1a\u0e17\u0e04\u0e27\u0e32\u0e21\u0e19\u0e35\u0e49\u0e08\u0e30\u0e40\u0e1b\u0e47\u0e19\u0e0b\u0e35\u0e23\u0e35\u0e22\u0e4c\u0e41\u0e23\u0e01\u0e02\u0e2d\u0e07 silicon brain \u0e42\u0e14\u0e22\u0e19\u0e33\u0e40\u0e2a\u0e19\u0e2d\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27\u0e01\u0e31\u0e1a Model Context Protocal...",
+      "url": "https://dev.to/silicon-brain/mcp-khuueaair-maatrthaanklaangechuuemolk-ai-4268",
+      "author": "Watchara Sukka",
+      "published_at": "2025-09-20 15:47:37",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "ai",
+        "c",
+        "net"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc0wrlx18anej0asvit0q.png",
+        "canonical_url": "https://dev.to/silicon-brain/mcp-khuueaair-maatrthaanklaangechuuemolk-ai-4268"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "LogicApp Autonomous Agents for Dynamic Tool Creation in LogicApp MCP Server",
+      "content": "What if your MCP server could get new tools on-demand, without you writing a single line of workflow...",
+      "url": "https://dev.to/imdj/logicapp-autonomous-agents-for-dynamic-tool-creation-in-logicapp-mcp-server-4a3",
+      "author": "Daniel Jonathan",
+      "published_at": "2025-09-20 23:29:11",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "logicapps",
+        "azure",
+        "mcp",
+        "mcptools"
+      ],
+      "metadata": {
+        "reading_time": 3,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/imdj/logicapp-autonomous-agents-for-dynamic-tool-creation-in-logicapp-mcp-server-4a3"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "\u2699\ufe0f Enabling a Logic App as an MCP Server",
+      "content": "You can enable your Logic App (Standard) to act as an MCP (Model Context Protocol) server by editing...",
+      "url": "https://dev.to/imdj/enabling-a-logic-app-as-an-mcp-server-34bp",
+      "author": "Daniel Jonathan",
+      "published_at": "2025-09-19 23:26:40",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "mcp",
+        "logicapps",
+        "logicappmcp",
+        "microsoft"
+      ],
+      "metadata": {
+        "reading_time": 2,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/imdj/enabling-a-logic-app-as-an-mcp-server-34bp"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "RAG vs MCP Made Simple: Expanding vs Structuring AI Knowledge",
+      "content": "When building AI systems, two concepts often come up and sometimes get confused: RAG...",
+      "url": "https://dev.to/clickit_devops/rag-vs-mcp-made-simple-expanding-vs-structuring-ai-knowledge-ejj",
+      "author": "ClickIT - DevOps and Software Development",
+      "published_at": "2025-09-15 17:47:42",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "ai",
+        "rag",
+        "mcp",
+        "llm"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/clickit_devops/rag-vs-mcp-made-simple-expanding-vs-structuring-ai-knowledge-ejj"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "Tip for Faster Debugging with Local Files with File Access MCP",
+      "content": "You can make debugging and troubleshooting much faster by exposing local files through an MCP (Model...",
+      "url": "https://dev.to/avmadhukiran/tip-for-faster-debugging-with-local-files-with-file-access-mcp-53a3",
+      "author": "madhu kiran",
+      "published_at": "2025-09-15 04:43:54",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "tooling",
+        "mcp",
+        "llm",
+        "productivity"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/avmadhukiran/tip-for-faster-debugging-with-local-files-with-file-access-mcp-53a3"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "# Logic Apps \u2764\ufe0f MCP \u2014 Expose Arithmetic Tools (Add & Subtract)",
+      "content": "Workflows as Arithmetic Tools   You can expose simple arithmetic operations like Add and...",
+      "url": "https://dev.to/imdj/-logic-apps-mcp-expose-arithmetic-tools-add-subtract-4o24",
+      "author": "Daniel Jonathan",
+      "published_at": "2025-09-20 00:02:16",
+      "source": "devto",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "logicapps",
+        "mcp",
+        "microsoft",
+        "lowcode"
+      ],
+      "metadata": {
+        "reading_time": 1,
+        "cover_image": null,
+        "canonical_url": "https://dev.to/imdj/-logic-apps-mcp-expose-arithmetic-tools-add-subtract-4o24"
+      },
+      "topic": "MCP",
+      "relevance_score": 0.7
+    },
+    {
+      "title": "The Pulse #146: How AI is changing tech interviews",
+      "content": "Before we start: we are doing research on MCP server best pratices. Do you use MCP servers at work, or did you build one/more? We&#8217;d like to hear from you. You can send details via this form. We&#8217;ll share findings with people sending details &#8211; and, of course, in the newsletter as well, at a later date. Thanks for your help!The Pulse is a series covering events, insights, and trends within Big Tech and startups.Today, we cover:How AI is changing tech interviews. New details about harder questions for candidates, growing cheating concerns, and the rise of AI-assisted interview processes, from 63 engineers in Big Tech scaleups, and startups, who are interviewers on the mock interviewing platform, interviewing.io.New trend: devs vibe coding internal tools. An increasingly popul",
+      "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-146",
+      "author": "Gergely Orosz",
+      "published_at": "2025-09-18 16:11:43",
+      "source": "substack",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [],
+      "metadata": {
+        "newsletter": "pragmatic-engineer",
+        "guid": "https://newsletter.pragmaticengineer.com/p/the-pulse-146",
+        "substack_url": "https://newsletter.pragmaticengineer.com/p/the-pulse-146",
+        "is_newsletter": true
+      },
+      "topic": "MCP",
+      "relevance_score": 0.5
+    },
+    {
+      "title": "Weekly Dose of Optimism #162",
+      "content": "Hi friends &#128075; ,Happy Friday and welcome back to our 162nd Weekly Dose of Optimism. Another week, another heavy dose. We got AR hardware and software launches, new Waymo safety numbers that make scaled FSD all but inevitable, record-breaking datacenter buildouts, AI models that can predict health outcomes, and a total of 5 bonus stories. We aim to please here. Let&#8217;s get to it.Today&#8217;s Weekly Dose is brought to you by&#8230; WorkOSModel Context Protocol (MCP) is becoming a standard for connecting tools to LLMs. But how do you securely authorize MCP servers? OAuth now provides the answer, with five complementary specs for delegation, token exchange, and scoped access.The WorkOS advantage:Packages all 5 OAuth specs into one simple API.Pre-built infrastructure that saves engin",
+      "url": "https://www.notboring.co/p/weekly-dose-of-optimism-162",
+      "author": "Daniel McCormick",
+      "published_at": "2025-09-19 13:06:32",
+      "source": "substack",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [],
+      "metadata": {
+        "newsletter": "not-boring",
+        "guid": "https://www.notboring.co/p/weekly-dose-of-optimism-162",
+        "substack_url": "https://www.notboring.co/p/weekly-dose-of-optimism-162",
+        "is_newsletter": true
+      },
+      "topic": "MCP",
+      "relevance_score": 0.5
+    },
+    {
+      "title": "Java MCP Server SDK: stdio server lifecycle",
+      "content": "I'm trying to implement a simple MCP Server like this:\nMcpServer.sync(new StdioServerTransportProvider())\n    .serverInfo(\"test\", \"1.0.0\")\n    .requestTimeout(Duration.ofSeconds(120))\n    .capabilities(getServerCapabilities())\n    .tools(createTestToolSpecs())\n    .build();\n\nWhen invoked from a main method, this works just fine and I can for example use an MCP client to list & invoke tools. As bui",
+      "url": "https://stackoverflow.com/questions/79768641/java-mcp-server-sdk-stdio-server-lifecycle",
+      "author": "rsenden",
+      "published_at": "2025-09-18 17:29:18",
+      "source": "stackoverflow",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "java",
+        "model-context-protocol",
+        "spring-ai"
+      ],
+      "metadata": {
+        "question_id": 79768641,
+        "answer_count": 1,
+        "view_count": 31,
+        "is_answered": false,
+        "accepted_answer_id": null,
+        "owner_reputation": 131
+      },
+      "topic": "MCP",
+      "relevance_score": 0.5
+    },
+    {
+      "title": "Can MCP chat clients handle simultaneous requests?",
+      "content": "I'm using the C# implementation of the ModelContextProvider library, and have a basic version of an application running on this. Furthermore, I'm using StreamServerTransport as the transport mechanism.\nI know that the client and server must use the same pipes for communication when using the streaming transport, so the client and server are therefore paired with each other, but I can't figure out ",
+      "url": "https://stackoverflow.com/questions/79768455/can-mcp-chat-clients-handle-simultaneous-requests",
+      "author": "awj",
+      "published_at": "2025-09-18 14:50:05",
+      "source": "stackoverflow",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "c#",
+        ".net",
+        "model-context-protocol"
+      ],
+      "metadata": {
+        "question_id": 79768455,
+        "answer_count": 0,
+        "view_count": 37,
+        "is_answered": false,
+        "accepted_answer_id": null,
+        "owner_reputation": 8009
+      },
+      "topic": "MCP",
+      "relevance_score": 0.5
+    },
+    {
+      "title": "Issues invoking Spring AI MCP tools via SSE in Spring Boot",
+      "content": "I\u2019m working with Spring Boot AI / Model Context Protocol (MCP) in a Spring Boot application. My goal is to expose some methods as tools using the @Tool annotation, so they can be called remotely via the MCP protocol.\nHere\u2019s the setup:\nSpring Boot application with Spring AI MCP server enabled (spring.ai.mcp.server.enabled=true).\nTools are defined as Spring @Service methods annotated with @Tool, e.g",
+      "url": "https://stackoverflow.com/questions/79767218/issues-invoking-spring-ai-mcp-tools-via-sse-in-spring-boot",
+      "author": "Pavitx",
+      "published_at": "2025-09-17 12:58:54",
+      "source": "stackoverflow",
+      "score": 0,
+      "comments_count": 0,
+      "tags": [
+        "model-context-protocol",
+        "spring-ai"
+      ],
+      "metadata": {
+        "question_id": 79767218,
+        "answer_count": 0,
+        "view_count": 35,
+        "is_answered": false,
+        "accepted_answer_id": null,
+        "owner_reputation": 123
+      },
+      "topic": "MCP",
+      "relevance_score": 0.5
+    },
+    {
+      "title": "The correct way to prompt for Playwright MCP to locate the element?",
+      "content": "I am trying to use Playwright MCP for my project's auto testing, which requires it to locate the correct element on the page and interact with them.\nFor many times, when I asks it to enter something in an input element, it fails to locate it. And when I check the log, it has written quite a lot of different js scripts for locating the element with conditions that I have and haven't mentioned in my",
+      "url": "https://stackoverflow.com/questions/79770659/the-correct-way-to-prompt-for-playwright-mcp-to-locate-the-element",
+      "author": "Terry Windwalker",
+      "published_at": "2025-09-21 05:56:31",
+      "source": "stackoverflow",
+      "score": -3,
+      "comments_count": 0,
+      "tags": [
+        "playwright",
+        "model-context-protocol",
+        "playwright-mcp"
+      ],
+      "metadata": {
+        "question_id": 79770659,
+        "answer_count": 0,
+        "view_count": 31,
+        "is_answered": false,
+        "accepted_answer_id": null,
+        "owner_reputation": 1953
+      },
+      "topic": "MCP",
+      "relevance_score": 0.47
+    },
+    {
+      "title": "how to use dify generate a report ppt,using data found in the system and imported data",
+      "content": "I now have a ppt template that display and analyzes each type of data.\nI need to obtain this data through a pre Configured MCP and analyze it through LLM node,\nI first tried to simulate the data and analyze it through LLM node to generate MD fornat text, and then convert MD to ppt. However,the generate ppt effect is very poor. I clearly said in the prompt that it should be generated according to t",
+      "url": "https://stackoverflow.com/questions/79769042/how-to-use-dify-generate-a-report-ppt-using-data-found-in-the-system-and-importe",
+      "author": "c Shu",
+      "published_at": "2025-09-19 03:51:31",
+      "source": "stackoverflow",
+      "score": -3,
+      "comments_count": 0,
+      "tags": [
+        "workflow",
+        "model-context-protocol",
+        "dify"
+      ],
+      "metadata": {
+        "question_id": 79769042,
+        "answer_count": 0,
+        "view_count": 17,
+        "is_answered": false,
+        "accepted_answer_id": null,
+        "owner_reputation": 1
+      },
+      "topic": "MCP",
+      "relevance_score": 0.47
+    },
+    {
+      "title": "Ask HN: Why do developers respect SaaS so much?",
+      "content": "During lunch at a developer conference, I saw a clear respect from software engineers towards SaaS, and lack of respect for other software. For example:<p>- When they talked someone who had a successful AI headshot app - they scoffed and said it was just a distribution game.<p>- When they talked about someone who made a really popular learning platform for web developers, they acted like that was not interesting.<p>- When someone talked about a B2B SaaS idea, they would suddenly get interested and start asking questions and give respect.<p>I have seen this with developers in daily life too. Am I missing something?",
+      "url": "https://news.ycombinator.com/item?id=45319434",
+      "author": "goldstraw",
+      "published_at": "2025-09-21 04:18:38",
+      "source": "hackernews",
+      "score": 1,
+      "comments_count": 4,
+      "tags": [
+        "story",
+        "author_goldstraw",
+        "story_45319434",
+        "ask_hn"
+      ],
+      "metadata": {
+        "hn_id": "45319434",
+        "story_id": 45319434
+      },
+      "topic": "AI for software developers",
+      "relevance_score": 0.39
+    }
+  ],
+  "stats": {
+    "total_articles_collected": 131,
+    "unique_articles": 108,
+    "top_articles_selected": 50,
+    "sources_used": 7,
+    "total_sources_available": 14
+  },
+  "source_breakdown": {
+    "hackernews": 23,
+    "reddit": 0,
+    "twitter": 0,
+    "producthunt": 0,
+    "yc_launches": 0,
+    "techcrunch": 0,
+    "devto": 30,
+    "medium": 1,
+    "substack": 2,
+    "youtube_podcasts": 0,
+    "stackoverflow": 25,
+    "bluesky": 0,
+    "arxiv": 30,
+    "rss_feeds": 20
+  }
+}

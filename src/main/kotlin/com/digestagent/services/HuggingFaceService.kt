@@ -29,30 +29,32 @@ class HuggingFaceService(
         }
     }
     
-    // Using microsoft/DialoGPT-medium for better availability on Inference API
-    private val baseUrl = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+    // Using Qwen3-4B-Instruct for better contextual summarization
+    private val baseUrl = "https://api-inference.huggingface.co/models/Qwen/Qwen3-4B-Instruct-2507"
     
     @Serializable
-    data class BartSummarizationRequest(
+    data class QwenGenerationRequest(
         val inputs: String,
-        val parameters: BartParameters = BartParameters()
+        val parameters: QwenParameters = QwenParameters()
     )
     
     @Serializable
-    data class BartParameters(
-        val max_length: Int = 150,
-        val min_length: Int = 30,
-        val do_sample: Boolean = false
+    data class QwenParameters(
+        val max_new_tokens: Int = 200,
+        val temperature: Double = 0.3,
+        val do_sample: Boolean = true,
+        val top_p: Double = 0.9,
+        val stop: List<String> = listOf("\n\n", "Human:", "Assistant:")
     )
     
     @Serializable
-    data class BartSummarizationResponse(
-        val summary_text: String? = null,
+    data class QwenGenerationResponse(
+        val generated_text: String? = null,
         val error: String? = null
     )
     
     /**
-     * Summarize an article using BART model
+     * Summarize an article using Qwen3-4B-Instruct model
      */
     suspend fun summarizeArticle(
         title: String,
@@ -60,8 +62,8 @@ class HuggingFaceService(
         maxRetries: Int = 3
     ): String? {
         return try {
-            // Prepare content for BART summarization (limit to ~1000 characters to avoid token limits)
-            val textToSummarize = prepareTextForSummarization(title, content)
+            // Create a chat prompt for Qwen model
+            val chatPrompt = buildQwenSummarizationPrompt(title, content)
             
             logger.debug("Summarizing article: {} (content length: {})", title, content.length)
             
@@ -70,7 +72,7 @@ class HuggingFaceService(
                     val response = httpClient.post(baseUrl) {
                         header("Authorization", "Bearer $apiToken")
                         contentType(ContentType.Application.Json)
-                        setBody(BartSummarizationRequest(inputs = textToSummarize))
+                        setBody(QwenGenerationRequest(inputs = chatPrompt))
                     }
                     
                     if (response.status == HttpStatusCode.ServiceUnavailable) {
@@ -89,14 +91,18 @@ class HuggingFaceService(
                         return null
                     }
                     
-                    val apiResponse = response.body<List<BartSummarizationResponse>>()
-                    val summary = apiResponse.firstOrNull()?.summary_text?.trim()
+                    val apiResponse = response.body<List<QwenGenerationResponse>>()
+                    val generatedText = apiResponse.firstOrNull()?.generated_text?.trim()
                     
-                    if (!summary.isNullOrBlank()) {
-                        logger.debug("Successfully summarized article: {}", title)
-                        return cleanupSummary(summary)
+                    if (!generatedText.isNullOrBlank()) {
+                        // Extract the summary from the generated text (remove the original prompt)
+                        val summary = extractSummaryFromGeneration(generatedText, chatPrompt)
+                        if (summary.isNotBlank()) {
+                            logger.debug("Successfully summarized article: {}", title)
+                            return cleanupSummary(summary)
+                        }
                     } else {
-                        logger.warn("Empty summary received for article: {}", title)
+                        logger.warn("Empty generation received for article: {}", title)
                     }
                     
                 } catch (e: Exception) {
@@ -116,18 +122,43 @@ class HuggingFaceService(
     }
     
     /**
-     * Prepare text for BART summarization
+     * Build Qwen chat prompt for summarization
      */
-    private fun prepareTextForSummarization(title: String, content: String): String {
-        // BART works better with raw text, not prompts
-        // Combine title and content, limit to ~1000 characters for better performance
-        val combinedText = "$title. $content"
-        
-        return if (combinedText.length > 1000) {
-            combinedText.take(1000).trim()
+    private fun buildQwenSummarizationPrompt(title: String, content: String): String {
+        // Limit content to avoid token limits (~1500 characters for better context)
+        val truncatedContent = if (content.length > 1500) {
+            content.take(1500) + "..."
         } else {
-            combinedText
+            content
         }
+        
+        return """<|im_start|>system
+You are a professional news analyst. Summarize the given article in 2-3 concise, informative sentences that capture the main points and key insights. Focus on the most important information and avoid redundancy.
+<|im_end|>
+<|im_start|>user
+Article Title: $title
+
+Article Content: $truncatedContent
+
+Please provide a clear, professional summary:
+<|im_end|>
+<|im_start|>assistant
+"""
+    }
+    
+    /**
+     * Extract summary from generated text by removing the prompt
+     */
+    private fun extractSummaryFromGeneration(generatedText: String, originalPrompt: String): String {
+        // Remove the original prompt from the generated text
+        val summary = generatedText.removePrefix(originalPrompt).trim()
+        
+        // Clean up any remaining chat markers
+        return summary
+            .removePrefix("<|im_start|>assistant")
+            .removePrefix("assistant")
+            .removePrefix("\n")
+            .trim()
     }
     
     /**
@@ -153,16 +184,23 @@ class HuggingFaceService(
      */
     suspend fun testConnection(): Boolean {
         return try {
-            val testText = "This is a test article about artificial intelligence and machine learning. The article discusses various aspects of AI technology and its impact on society."
+            val testPrompt = """<|im_start|>system
+You are a helpful assistant.
+<|im_end|>
+<|im_start|>user
+Say "Connection successful" to test the API.
+<|im_end|>
+<|im_start|>assistant
+"""
             
             val response = httpClient.post(baseUrl) {
                 header("Authorization", "Bearer $apiToken")
                 contentType(ContentType.Application.Json)
-                setBody(BartSummarizationRequest(
-                    inputs = testText,
-                    parameters = BartParameters(
-                        max_length = 50,
-                        min_length = 10
+                setBody(QwenGenerationRequest(
+                    inputs = testPrompt,
+                    parameters = QwenParameters(
+                        max_new_tokens = 10,
+                        temperature = 0.1
                     )
                 ))
             }

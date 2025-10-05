@@ -1,0 +1,152 @@
+# === Gradle ===
+.gradle/
+build/
+gradlew.bat
+
+# === IDE ===
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# === OS ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+.fuse_hidden*
+
+# === Environment Files ===
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# === Generated Reports ===
+weekly_report_*.md
+daily_report_*.md
+monthly_report_*.md
+report_*.md
+*.report
+
+# === Logs ===
+*.log
+logs/
+log/
+
+# === Temporary Files ===
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.#*
+#*#
+
+# === AI/ML Model Files ===
+ai/
+models/
+*.model
+*.pkl
+*.joblib
+*.bin
+
+# === Database Files ===
+*.db
+*.sqlite
+*.sqlite3
+
+# === JVM ===
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+hs_err_pid*
+
+# === Kotlin ===
+*.kotlin_module
+
+# === Python (legacy files) ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.venv/
+venv/
+env/
+ENV/
+
+# === Node.js (if any JS tools) ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Backup Files ===
+*.bak
+*.backup
+*.old
+
+# === Test Coverage ===
+.coverage
+coverage/
+*.cover
+htmlcov/
+
+# === Docker ===
+.dockerignore
+docker-compose.override.yml
+
+# === JetBrains ===
+.idea/
+*.iws
+out/
+
+# === Cache ===
+.cache/
+cache/
+
+# === Build Outputs ===
+dist/
+target/
+bin/
+obj/
+
+# === Configuration Overrides ===
+application-local.properties
+application-local.yml
+config-local.json
+
+# === Scripts (keep executable scripts but ignore temp ones) ===
+*.pid
+*.seed
+*.gz.pid
+
+# === Certificates & Keys ===
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# === Package Files ===
+*.tgz
+*.tar.gz
+*.zip
+*.rar
+
+# === Local Development ===
+local/
+.local/

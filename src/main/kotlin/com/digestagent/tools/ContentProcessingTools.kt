@@ -161,18 +161,89 @@ class ContentProcessingTools {
     }
     
     /**
-     * Generate a basic summary when AI service is unavailable
+     * Generate an intelligent fallback summary when AI service is unavailable
      */
     private fun generateBasicSummary(content: String): String {
-        // Take first few sentences or up to 200 characters
-        val sentences = content.split(". ", "! ", "? ")
-        val summary = when {
-            sentences.size >= 2 -> "${sentences[0]}. ${sentences[1]}."
-            sentences.size == 1 && sentences[0].length > 200 -> sentences[0].take(200) + "..."
-            else -> sentences.firstOrNull() ?: "No content available for summary."
+        if (content.isBlank()) return "No content available for summary."
+        
+        // Clean and prepare content
+        val cleanContent = content
+            .replace(Regex("<[^>]*>"), "") // Remove HTML tags
+            .replace(Regex("\\s+"), " ") // Normalize whitespace
+            .trim()
+        
+        // Split into sentences more intelligently
+        val sentences = cleanContent.split(Regex("(?<=[.!?])\\s+(?=[A-Z])"))
+            .map { it.trim() }
+            .filter { it.isNotBlank() && it.length > 10 } // Filter out very short sentences
+        
+        return when {
+            sentences.isEmpty() -> "Content summary not available."
+            sentences.size == 1 -> {
+                val sentence = sentences[0]
+                if (sentence.length > 150) {
+                    extractKeyPhrase(sentence) ?: sentence.take(150) + "..."
+                } else {
+                    sentence
+                }
+            }
+            else -> {
+                // Try to find the most informative sentences
+                val keyPhrases = listOf("MCP", "protocol", "framework", "API", "release", "project", "developer", "tool")
+                val prioritySentences = sentences.filter { sentence ->
+                    keyPhrases.any { phrase -> sentence.contains(phrase, ignoreCase = true) }
+                }
+                
+                val selectedSentences = if (prioritySentences.isNotEmpty()) {
+                    prioritySentences.take(2)
+                } else {
+                    sentences.take(2)
+                }
+                
+                selectedSentences.joinToString(" ").let { summary ->
+                    if (summary.length > 200) {
+                        summary.take(200) + "..."
+                    } else {
+                        summary
+                    }
+                }
+            }
+        }.let { summary ->
+            // Clean up generic phrases
+            summary
+                .replace(Regex("^(The article|This article|The post|This post)\\s*", RegexOption.IGNORE_CASE), "")
+                .replace(Regex("\\b(discusses|explains|talks about|describes|covers)\\b", RegexOption.IGNORE_CASE), "presents")
+                .trim()
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+                .let { cleaned ->
+                    if (cleaned.isNotEmpty() && !cleaned.matches(Regex(".*[.!?]$"))) {
+                        "$cleaned."
+                    } else {
+                        cleaned
+                    }
+                }
+        }
+    }
+    
+    /**
+     * Extract key phrase from a sentence for better summaries
+     */
+    private fun extractKeyPhrase(sentence: String): String? {
+        val keyPatterns = listOf(
+            Regex("\\b(MCP|Model Context Protocol)[^.]*", RegexOption.IGNORE_CASE),
+            Regex("\\b(API|framework|library|tool)\\s+[^.]*", RegexOption.IGNORE_CASE),
+            Regex("\\b(release|announce|launch)[^.]*", RegexOption.IGNORE_CASE),
+            Regex("\\b(project|repository|github)[^.]*", RegexOption.IGNORE_CASE)
+        )
+        
+        for (pattern in keyPatterns) {
+            val match = pattern.find(sentence)
+            if (match != null && match.value.length > 30) {
+                return match.value.trim() + "."
+            }
         }
         
-        return summary.trim()
+        return null
     }
 
     private fun calculateRelevanceScore(article: Article, topics: List<String>): Double {

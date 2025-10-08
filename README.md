@@ -1,270 +1,287 @@
-# Weekly Intelligence Agent
+# Digest Agent (Weekly Intelligence Agent)
 
 An AI-powered agent that sources information from Hacker News, Reddit, X (Twitter), Product Hunt, YC launches, and other sources to generate summarized weekly reports with trends and strategic takeaways.
 
+**🚀 Now powered by Kotlin and Koog AI Framework!**
+
 ## Architecture
 
-- **Core**: Python with LangGraph for agentic workflows
-- **API**: FastAPI for service endpoints
-- **Storage**: PostgreSQL with pgvector for embeddings
-- **Scheduling**: Celery with Redis backend
-- **Monitoring**: OpenTelemetry for distributed tracing
-- **Agent Framework**: LangGraph state machine with deterministic workflows
+- **Core**: Kotlin with Koog AI Framework for agentic workflows
+- **HTTP Client**: Ktor for robust API integrations  
+- **AI Engine**: OpenAI GPT models with Hugging Face fallback
+- **Configuration**: Environment-based with dotenv support
+- **Concurrency**: Kotlin coroutines for high-performance async processing
+- **Notifications**: Telegram integration for report delivery
 
 ## Project Structure
 
 ```
-weekly-intel-agent/
-├── src/
-│   ├── agents/           # LangGraph agent definitions
-│   ├── sources/          # Data source integrations
-│   ├── processors/       # Data processing and enrichment
-│   ├── storage/          # Database models and operations
-│   ├── api/              # FastAPI endpoints
-│   └── utils/            # Shared utilities
-├── config/               # Configuration files
-├── docker/               # Docker configurations
-├── tests/                # Test suite
-└── scripts/              # Deployment and utility scripts
+src/main/kotlin/com/digestagent/
+├── agent/                    # Main AI agent implementation
+│   └── WeeklyIntelAgent.kt
+├── model/                    # Data models and state management
+│   └── WeeklyIntelState.kt
+├── tools/                    # Koog AI tools for data processing
+│   ├── DataIngestionTools.kt
+│   ├── ContentProcessingTools.kt
+│   └── ReportGenerationTools.kt
+├── sources/                  # Data source integrations
+│   └── SourceManager.kt
+├── services/                 # External service integrations
+│   └── HuggingFaceService.kt
+├── telegram/                 # Telegram notification service
+│   └── TelegramNotifier.kt
+├── config/                   # Configuration management
+│   └── Configuration.kt
+└── Main.kt                   # Application entry point
 ```
 
 ## Quick Start
 
-### Option 1: Full Docker Setup (Recommended)
+### Prerequisites
+
+- **Java 17+** (required)
+- **Kotlin 2.1.21+** (handled by Gradle)
+- **OpenAI API Key** (required)
+- **Telegram Bot Token** (optional, for notifications)
+
+### Setup
 
 ```bash
-# 1. Clone and setup
+# 1. Clone the repository
 git clone <repository-url>
-cd weekly-intel-agent
-cp .env.example .env
+cd digest-agent
 
-# 2. Edit .env file with your API keys (at minimum add OPENAI_API_KEY)
-# Optional: Add REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, TWITTER_BEARER_TOKEN, PRODUCTHUNT_API_KEY
+# 2. Copy environment template
+cp env.example .env
 
-# 3. Start all services
-docker compose up -d
+# 3. Edit .env file with your API keys
+# Required: OPENAI_API_KEY
+# Optional: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+# Optional: REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, TWITTER_BEARER_TOKEN, PRODUCTHUNT_API_KEY
 
-# 4. Wait for services to be ready (about 30 seconds)
-# 5. View the web interface at http://localhost:3000
-# 6. API available at http://localhost:8000
+# 4. Build the project
+./gradlew build
+
+# 5. Run the agent
+./gradlew run
 ```
 
-### Option 2: Local Development
+### Custom Topics
 
 ```bash
-# 1. Setup Python environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# 2. Setup environment
-cp .env.example .env
-# Edit .env with your API keys
-
-# 3. Start database services
-docker compose up -d postgres redis
-
-# 4. Initialize database
-python scripts/init_db.py
-
-# 5. Start API server
-uvicorn src.api.main:app --reload --port 8000
-
-# 6. In another terminal, start web interface
-python src/web/app.py
-
-# 7. Generate a test report
-python populate_test_data.py
-```
-
-### Option 2b: One-Command Local Startup
-
-```bash
-# Start both backend and web app in one command (requires parallel execution)
-uvicorn src.api.main:app --reload --port 8000 & python src/web/app.py & wait
-```
-
-> **Prerequisites:** Ensure PostgreSQL and Redis are running first:
-> ```bash
-> docker compose up -d postgres redis && sleep 30 && python scripts/init_db.py
-> ```
-
-### Option 3: Quick Test with Sample Data
-
-```bash
-# 1. Start services
-docker compose up -d
-
-# 2. Generate test report (no API keys needed)
-python populate_test_data.py
-
-# 3. View at http://localhost:3000
-```
-
-### Running the Agent
-
-```bash
-# Generate a report manually
-python -m src.agents.weekly_intel --topics "AI,machine learning,developer tools"
-
-# Or use the web interface to generate reports
-# Visit http://localhost:3000/generate
+# Run with specific topics
+./gradlew run --args="'AI startups' 'fintech innovations' 'developer tools'"
 ```
 
 ## Features
 
 ### 🔍 **Multi-Source Data Ingestion**
-- **Hacker News**: Top stories and discussions
-- **Reddit**: Relevant subreddit posts
-- **TechCrunch**: Latest tech news and funding announcements
-- **YC Launches**: Y Combinator startup launches
+- **Hacker News**: Top stories and discussions (no API key required)
+- **Reddit**: Relevant subreddit posts (with API key)
+- **TechCrunch**: Latest tech news (RSS feed)
+- **YC Launches**: Y Combinator startup launches (web scraping)
+- **Dev.to**: Developer community posts (no API key required)
 - **Product Hunt**: New product launches (with API key)
 - **Twitter/X**: Tech industry tweets (with API key)
 
-### 🧠 **Intelligent Processing**
+### 🧠 **AI-Powered Processing**
+- **Koog AI Framework**: Advanced agent orchestration
+- **OpenAI Integration**: GPT models for analysis and summarization
+- **Hugging Face Fallback**: Qwen models for robust processing
 - **Content Ranking**: ML-based scoring and relevance filtering
 - **Duplicate Detection**: Automatic deduplication of similar articles
 - **Quality Assessment**: Content quality scoring and filtering
-- **Keyword Extraction**: Automatic topic and keyword identification
-- **HTML Decoding**: Clean text extraction from web content
 
-### 📊 **Report Generation**
+### 📊 **Intelligent Report Generation**
 - **Weekly Intelligence Reports**: Comprehensive summaries with insights
 - **Strategic Analysis**: Business implications and recommendations
-- **Key Quotes**: Meaningful excerpts from top articles (no more URL-only quotes!)
 - **Trend Identification**: Pattern recognition across sources
 - **Customizable Topics**: Focus on specific areas of interest
+- **Multiple Formats**: Markdown, JSON output support
 
-### 🌐 **Web Interface**
-- **Interactive Dashboard**: Browse and filter reports
-- **Report Generation**: Create reports on-demand
-- **Article Details**: Full article content and metadata
-- **Responsive Design**: Works on desktop and mobile
+### 📱 **Telegram Integration**
+- **Automated Notifications**: Reports delivered to Telegram
 - **Real-time Updates**: Live report generation status
+- **Easy Setup**: Simple bot token configuration
 
-### ⚙️ **Technical Features**
-- **LangGraph Workflows**: Deterministic agent execution
-- **PostgreSQL + pgvector**: Scalable storage with embeddings
-- **FastAPI**: High-performance REST API
-- **Docker Support**: Easy deployment and scaling
-- **Configurable Sources**: Enable/disable sources as needed
+### ⚡ **High Performance**
+- **Kotlin Coroutines**: Efficient concurrent processing
+- **Ktor HTTP Client**: Fast, reliable API calls
+- **Memory Efficient**: Built-in history compression
+- **Type Safe**: Compile-time error prevention
 
 ## Configuration
 
-### Required API Keys
-- **OpenAI API Key**: For AI-powered analysis and report generation
-  - Get from: https://platform.openai.com/api-keys
-  - Set in `.env`: `OPENAI_API_KEY=your_key_here`
+### Required Environment Variables
 
-### Optional API Keys (for enhanced data sources)
-- **Reddit API**: For Reddit posts
-  - Get from: https://www.reddit.com/prefs/apps
-  - Set: `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`
-- **Twitter/X Bearer Token**: For Twitter posts
-  - Get from: https://developer.twitter.com/
-  - Set: `TWITTER_BEARER_TOKEN`
-- **Product Hunt API**: For Product Hunt launches
-  - Get from: https://api.producthunt.com/v2/docs
-  - Set: `PRODUCTHUNT_API_KEY`
+Create a `.env` file with the following:
 
-### Working Without API Keys
-The system works with just Hacker News and TechCrunch (no API keys required):
-- Hacker News: Always available
-- TechCrunch: RSS feed access
-- YC Launches: Web scraping
+```bash
+# Required
+OPENAI_API_KEY=your_openai_key_here
+
+# Optional - Telegram notifications
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+
+# Optional - Enhanced data sources
+REDDIT_CLIENT_ID=your_reddit_client_id
+REDDIT_CLIENT_SECRET=your_reddit_client_secret
+TWITTER_BEARER_TOKEN=your_twitter_token
+PRODUCTHUNT_API_KEY=your_producthunt_key
+
+# Optional - Hugging Face (for fallback)
+HUGGINGFACE_API_TOKEN=your_hf_token
+```
 
 ### Topics Configuration
-Edit topics in `.env` or specify when running:
-```bash
-# In .env file
-TOPICS=["AI", "machine learning", "developer tools", "startup funding"]
 
-# Or via command line
-python -m src.agents.weekly_intel --topics "AI,blockchain,fintech"
+Default topics are: "AI", "machine learning", "developer tools", "startup funding"
+
+Customize via command line:
+```bash
+./gradlew run --args="'blockchain' 'fintech' 'crypto'"
+```
+
+### Getting API Keys
+
+- **OpenAI**: https://platform.openai.com/api-keys
+- **Telegram Bot**: Message @BotFather on Telegram
+- **Reddit**: https://www.reddit.com/prefs/apps
+- **Twitter/X**: https://developer.twitter.com/
+- **Product Hunt**: https://api.producthunt.com/v2/docs
+- **Hugging Face**: https://huggingface.co/settings/tokens
+
+## Usage Examples
+
+### Basic Report Generation
+
+```kotlin
+val agent = WeeklyIntelAgent(openAIApiKey)
+val report = agent.runWeeklyIntel(listOf("AI", "machine learning"))
+println(report)
+```
+
+### With Telegram Notifications
+
+```kotlin
+val agent = WeeklyIntelAgent(
+    openAIApiKey = openAIApiKey,
+    telegramBotToken = telegramToken,
+    telegramChatId = chatId
+)
+val report = agent.runWeeklyIntel(topics)
+// Report automatically sent to Telegram
+```
+
+### Focused Analysis
+
+```kotlin
+val report = agent.runFocusedAnalysis(
+    topics = listOf("AI", "startups"),
+    focusArea = "investment trends",
+    maxArticles = 20
+)
+```
+
+## Available Tasks
+
+```bash
+# Build the project
+./gradlew build
+
+# Run the main application
+./gradlew run
+
+# Run with custom arguments
+./gradlew run --args="'topic1' 'topic2'"
+
+# Test Telegram integration
+./gradlew testTelegram -PchatId=your_chat_id
+
+# Run tests
+./gradlew test
+
+# Clean build
+./gradlew clean build
 ```
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Database Connection Errors**
+**Build Failures**
 ```bash
-# Make sure PostgreSQL is running
-docker compose up -d postgres
-# Wait 30 seconds, then initialize
-python scripts/init_db.py
+# Clean and rebuild
+./gradlew clean build
+
+# Check Java version
+java -version  # Should be 17+
 ```
 
-**Port Already in Use**
-```bash
-# Check what's using the ports
-lsof -i :3000  # Web interface
-lsof -i :8000  # API
-lsof -i :5432  # PostgreSQL
-
-# Stop conflicting services or change ports in docker-compose.yml
-```
+**Missing API Keys**
+- Ensure `OPENAI_API_KEY` is set in `.env`
+- Verify `.env` file is in project root
+- Check for typos in environment variable names
 
 **No Articles Found**
-- Check your internet connection
+- Check internet connection
 - Verify API keys are correct (for Reddit, Twitter, Product Hunt)
-- Try with just Hacker News: it requires no API keys
-- Check logs: `docker compose logs -f`
+- Try with just Hacker News (no API key required)
 
-**Web Interface Not Loading**
+**Telegram Not Working**
 ```bash
-# Check if services are running
-docker compose ps
-
-# Restart web service
-docker compose restart web
-
-# Check logs
-docker compose logs web
+# Test your bot token and chat ID
+./gradlew testTelegram -PchatId=your_chat_id
 ```
+
+### Performance Tips
+
+1. **Limit Article Count**: Use `maxArticles` parameter
+2. **Focus Topics**: Be specific with topic selection  
+3. **Monitor Memory**: Increase JVM heap if needed (`-Xmx2g`)
+4. **Enable Logging**: Check logs for detailed debugging
 
 ### Getting Help
 
-1. **Check System Status**: Look at `SYSTEM_STATUS.md` for current known issues
-2. **View Logs**: `docker compose logs -f [service_name]`
-3. **Test Individual Components**:
-   ```bash
-   # Test API
-   curl http://localhost:8000/health
-   
-   # Test database
-   python scripts/init_db.py
-   
-   # Generate test data
-   python populate_test_data.py
-   ```
+1. **Check Logs**: Look at console output for detailed error messages
+2. **Verify Configuration**: Ensure all required environment variables are set
+3. **Test Components**: Use individual Gradle tasks to isolate issues
+4. **Migration Guide**: See `README-KOOG-MIGRATION.md` for technical details
+
+## Migration from Python
+
+This project was migrated from Python/LangChain to Kotlin/Koog for:
+
+- **Better Performance**: Kotlin coroutines outperform Python asyncio
+- **Type Safety**: Compile-time error checking
+- **Enterprise Ready**: JVM ecosystem and tooling
+- **Memory Efficiency**: Better resource management
+- **Simplified Architecture**: Single agent replaces complex graph workflows
+
+See `README-KOOG-MIGRATION.md` for detailed migration information.
 
 ## Development
 
-### Project Structure
-```
-src/
-├── agents/           # LangGraph agent workflows
-├── api/             # FastAPI endpoints  
-├── processors/      # Content processing and AI analysis
-├── sources/         # Data source integrations
-├── storage/         # Database models and operations
-├── web/            # Web interface (Flask)
-└── utils/          # Shared utilities
-```
+### Testing
 
-### Running Tests
 ```bash
 # Run all tests
-make test
+./gradlew test
 
 # Run specific test
-python -m pytest tests/test_sources.py -v
+./gradlew test --tests "MigrationTest"
 ```
 
 ### Contributing
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests
+4. Add tests if applicable
 5. Submit a pull request
+
+## License
+
+[License information here]

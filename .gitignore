@@ -32,7 +32,9 @@ Thumbs.db
 .env.production
 
 # === Generated Reports ===
+reports/
 weekly_report_*.md
+weekly_report_*.json
 daily_report_*.md
 monthly_report_*.md
 report_*.md

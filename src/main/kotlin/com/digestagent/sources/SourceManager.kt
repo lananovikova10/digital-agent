@@ -174,11 +174,67 @@ class HackerNewsSource : DataSource("HackerNews") {
  * Reddit source implementation
  */
 class RedditSource : DataSource("Reddit") {
+    
+    /**
+     * Get relevant subreddits based on the search topic
+     */
+    private fun getRelevantSubreddits(topic: String): List<String> {
+        val topicLower = topic.lowercase()
+        
+        return when {
+            // MCP (Model Context Protocol) specific
+            topicLower.contains("mcp") || topicLower.contains("model context protocol") -> {
+                listOf("mcp", "anthropic", "claude", "LangChain", "LocalLLaMA", "MachineLearning", "artificial", "programming")
+            }
+            
+            // AI and Machine Learning
+            topicLower.contains("ai") || topicLower.contains("artificial intelligence") -> {
+                listOf("artificial", "MachineLearning", "LocalLLaMA", "OpenAI", "ChatGPT", "singularity", "technology", "programming")
+            }
+            
+            // Machine Learning specific
+            topicLower.contains("machine learning") || topicLower.contains("ml") -> {
+                listOf("MachineLearning", "artificial", "datascience", "statistics", "deeplearning", "programming", "technology")
+            }
+            
+            // Fintech
+            topicLower.contains("fintech") || topicLower.contains("financial technology") -> {
+                listOf("fintech", "CryptoCurrency", "investing", "financialindependence", "SecurityAnalysis", "economics", "startups", "technology")
+            }
+            
+            // Startup related
+            topicLower.contains("startup") || topicLower.contains("entrepreneur") -> {
+                listOf("startups", "Entrepreneur", "smallbusiness", "venturecapital", "business", "technology")
+            }
+            
+            // Programming/Development
+            topicLower.contains("programming") || topicLower.contains("development") || topicLower.contains("coding") -> {
+                listOf("programming", "webdev", "learnprogramming", "cscareerquestions", "programming_languages", "technology")
+            }
+            
+            // Blockchain/Crypto
+            topicLower.contains("blockchain") || topicLower.contains("crypto") || topicLower.contains("bitcoin") -> {
+                listOf("CryptoCurrency", "Bitcoin", "ethereum", "defi", "blockchain", "technology", "fintech")
+            }
+            
+            // General technology
+            topicLower.contains("technology") || topicLower.contains("tech") -> {
+                listOf("technology", "gadgets", "futurology", "programming", "artificial", "singularity")
+            }
+            
+            // Default fallback - try topic-specific subreddit first, then general ones
+            else -> {
+                listOf(topicLower, "technology", "programming", "artificial", "startups")
+            }
+        }.distinct().take(6) // Limit to 6 subreddits to avoid being too slow
+    }
+
     override suspend fun fetchArticles(topic: String, client: HttpClient): List<Article> {
         return try {
             println("DEBUG: RedditSource fetching articles for topic: $topic")
-            // Search multiple relevant subreddits
-            val subreddits = listOf("programming", "technology", "MachineLearning", "artificial", "startups")
+            // Search topic-relevant subreddits based on the topic
+            val subreddits = getRelevantSubreddits(topic)
+            println("DEBUG: Selected subreddits for '$topic': ${subreddits.joinToString(", ")}")
             val allArticles = mutableListOf<Article>()
             
             subreddits.forEach { subreddit ->

@@ -27,29 +27,38 @@ class HuggingFaceService(
                 isLenient = true
             })
         }
+        
+        engine {
+            // Configure connection timeouts
+            requestTimeout = 60000 // 60 seconds
+            
+            // Enable HTTP/2 support
+            pipelining = false
+            
+            // Connection pool settings
+            maxConnectionsCount = 100
+        }
     }
     
-    // Using Qwen3-4B-Instruct for better contextual summarization
-    private val baseUrl = "https://api-inference.huggingface.co/models/Qwen/Qwen3-4B-Instruct-2507"
+    // Using microsoft/DialoGPT-medium for better contextual summarization  
+    private val baseUrl = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
     
     @Serializable
-    data class QwenGenerationRequest(
+    data class SummarizationRequest(
         val inputs: String,
-        val parameters: QwenParameters = QwenParameters()
+        val parameters: SummarizationParameters = SummarizationParameters()
     )
     
     @Serializable
-    data class QwenParameters(
-        val max_new_tokens: Int = 200,
-        val temperature: Double = 0.3,
-        val do_sample: Boolean = true,
-        val top_p: Double = 0.9,
-        val stop: List<String> = listOf("\n\n", "Human:", "Assistant:")
+    data class SummarizationParameters(
+        val max_length: Int = 150,
+        val min_length: Int = 30,
+        val do_sample: Boolean = false
     )
     
     @Serializable
-    data class QwenGenerationResponse(
-        val generated_text: String? = null,
+    data class SummarizationResponse(
+        val summary_text: String? = null,
         val error: String? = null
     )
     
@@ -62,8 +71,8 @@ class HuggingFaceService(
         maxRetries: Int = 3
     ): String? {
         return try {
-            // Create a chat prompt for Qwen model
-            val chatPrompt = buildQwenSummarizationPrompt(title, content)
+            // Prepare content for BART summarization
+            val textToSummarize = prepareContentForSummarization(title, content)
             
             logger.debug("Summarizing article: {} (content length: {})", title, content.length)
             
@@ -72,7 +81,7 @@ class HuggingFaceService(
                     val response = httpClient.post(baseUrl) {
                         header("Authorization", "Bearer $apiToken")
                         contentType(ContentType.Application.Json)
-                        setBody(QwenGenerationRequest(inputs = chatPrompt))
+                        setBody(SummarizationRequest(inputs = textToSummarize))
                     }
                     
                     if (response.status == HttpStatusCode.ServiceUnavailable) {
@@ -91,22 +100,34 @@ class HuggingFaceService(
                         return null
                     }
                     
-                    val apiResponse = response.body<List<QwenGenerationResponse>>()
-                    val generatedText = apiResponse.firstOrNull()?.generated_text?.trim()
+                    val apiResponse = response.body<List<SummarizationResponse>>()
+                    val summaryText = apiResponse.firstOrNull()?.summary_text?.trim()
                     
-                    if (!generatedText.isNullOrBlank()) {
-                        // Extract the summary from the generated text (remove the original prompt)
-                        val summary = extractSummaryFromGeneration(generatedText, chatPrompt)
-                        if (summary.isNotBlank()) {
-                            logger.debug("Successfully summarized article: {}", title)
-                            return cleanupSummary(summary)
-                        }
+                    if (!summaryText.isNullOrBlank()) {
+                        logger.debug("Successfully summarized article: {}", title)
+                        return cleanupSummary(summaryText)
                     } else {
                         logger.warn("Empty generation received for article: {}", title)
                     }
                     
                 } catch (e: Exception) {
-                    logger.warn("Error in summarization attempt $attempt/$maxRetries for article '$title'", e)
+                    when (e) {
+                        is java.net.UnknownHostException -> {
+                            logger.error("DNS resolution failed for Hugging Face API: ${e.message}")
+                        }
+                        is java.net.ConnectException -> {
+                            logger.error("Connection failed to Hugging Face API: ${e.message}")
+                        }
+                        is java.nio.channels.UnresolvedAddressException -> {
+                            logger.error("Address resolution failed for Hugging Face API: ${e.message}")
+                        }
+                        is io.ktor.client.network.sockets.ConnectTimeoutException -> {
+                            logger.error("Connection timeout to Hugging Face API: ${e.message}")
+                        }
+                        else -> {
+                            logger.warn("Error in summarization attempt $attempt/$maxRetries for article '$title': ${e::class.simpleName} - ${e.message}", e)
+                        }
+                    }
                     if (attempt < maxRetries) {
                         delay(2000)
                         continue
@@ -122,28 +143,68 @@ class HuggingFaceService(
     }
     
     /**
-     * Build Qwen chat prompt for summarization
+     * Prepare content for BART summarization
      */
-    private fun buildQwenSummarizationPrompt(title: String, content: String): String {
-        // Limit content to avoid token limits (~1500 characters for better context)
-        val truncatedContent = if (content.length > 1500) {
-            content.take(1500) + "..."
-        } else {
-            content
-        }
+    private fun prepareContentForSummarization(title: String, content: String): String {
+        // Limit content to avoid token limits for BART (512 tokens ≈ 2048 characters)
+        val maxLength = 2000
+        val cleanContent = content
+            .replace(Regex("<[^>]*>"), "") // Remove HTML
+            .replace(Regex("\\s+"), " ") // Normalize whitespace
+            .trim()
         
-        return """<|im_start|>system
-You are a professional news analyst. Summarize the given article in 2-3 concise, informative sentences that capture the main points and key insights. Focus on the most important information and avoid redundancy.
-<|im_end|>
-<|im_start|>user
-Article Title: $title
-
-Article Content: $truncatedContent
-
-Please provide a clear, professional summary:
-<|im_end|>
-<|im_start|>assistant
-"""
+        val fullText = "$title. $cleanContent"
+        
+        return if (fullText.length > maxLength) {
+            fullText.take(maxLength) + "..."
+        } else {
+            fullText
+        }
+    }
+    
+    /**
+     * Detect the type of content for better summarization
+     */
+    private fun detectContentType(title: String, content: String): ArticleType {
+        val titleLower = title.lowercase()
+        val contentLower = content.lowercase()
+        
+        return when {
+            titleLower.contains(Regex("\\b(show hn:|github|repository|project)\\b")) || 
+            contentLower.contains(Regex("\\b(github\\.com|repository|open source|project)\\b")) -> ArticleType.PROJECT
+            
+            titleLower.contains(Regex("\\b(release|version|update|v\\d|launched)\\b")) ||
+            contentLower.contains(Regex("\\b(released|version|update|changelog|new features)\\b")) -> ArticleType.RELEASE
+            
+            titleLower.contains(Regex("\\b(tutorial|guide|how to|learn|course)\\b")) ||
+            contentLower.contains(Regex("\\b(tutorial|step by step|learn|guide)\\b")) -> ArticleType.TUTORIAL
+            
+            titleLower.contains(Regex("\\b(api|protocol|framework|library|sdk)\\b")) ||
+            contentLower.contains(Regex("\\b(api|protocol|framework|library|integration)\\b")) -> ArticleType.TECHNICAL
+            
+            titleLower.contains(Regex("\\b(startup|funding|acquisition|company)\\b")) ||
+            contentLower.contains(Regex("\\b(funding|investment|acquired|startup)\\b")) -> ArticleType.BUSINESS
+            
+            else -> ArticleType.GENERAL
+        }
+    }
+    
+    /**
+     * Get specific guidance based on content type
+     */
+    private fun getSummaryGuidance(articleType: ArticleType): String {
+        return when (articleType) {
+            ArticleType.PROJECT -> "For project/repository content: Focus on what problem it solves, key technologies used, and practical applications."
+            ArticleType.RELEASE -> "For releases/updates: Highlight new features, improvements, and impact on developers."
+            ArticleType.TUTORIAL -> "For tutorials/guides: Summarize what developers will learn and the key concepts covered."
+            ArticleType.TECHNICAL -> "For technical content: Focus on the technical innovation, use cases, and developer benefits."
+            ArticleType.BUSINESS -> "For business content: Highlight the market impact and implications for the tech industry."
+            ArticleType.GENERAL -> "Focus on the main insight or development and its relevance to the tech community."
+        }
+    }
+    
+    private enum class ArticleType {
+        PROJECT, RELEASE, TUTORIAL, TECHNICAL, BUSINESS, GENERAL
     }
     
     /**
@@ -162,13 +223,23 @@ Please provide a clear, professional summary:
     }
     
     /**
-     * Clean up the generated summary
+     * Clean up the generated summary by removing generic prefixes and improving quality
      */
     private fun cleanupSummary(summary: String): String {
         return summary
-            .replace(Regex("^(Summary:|Article Summary:|Here's a summary:|The article|This article)\\s*:?\\s*", RegexOption.IGNORE_CASE), "")
+            // Remove common generic prefixes
+            .replace(Regex("^(Summary:|Article Summary:|Here's a summary:|The article|This article|The post|This post|Reddit post about)\\s*:?\\s*", RegexOption.IGNORE_CASE), "")
+            // Remove redundant phrases
+            .replace(Regex("\\b(discusses|explains|talks about|describes|covers|explores)\\b", RegexOption.IGNORE_CASE), "presents")
+            // Normalize whitespace
             .replace(Regex("\\s+"), " ")
             .trim()
+            .let { cleaned ->
+                // Ensure it starts with capital letter
+                if (cleaned.isNotEmpty()) {
+                    cleaned.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+                } else cleaned
+            }
             .let { cleaned ->
                 // Ensure it ends with proper punctuation
                 if (cleaned.isNotEmpty() && !(cleaned.endsWith(".") || cleaned.endsWith("!") || cleaned.endsWith("?"))) {
@@ -184,23 +255,16 @@ Please provide a clear, professional summary:
      */
     suspend fun testConnection(): Boolean {
         return try {
-            val testPrompt = """<|im_start|>system
-You are a helpful assistant.
-<|im_end|>
-<|im_start|>user
-Say "Connection successful" to test the API.
-<|im_end|>
-<|im_start|>assistant
-"""
+            val testText = "This is a simple test to check if the API connection is working properly for summarization."
             
             val response = httpClient.post(baseUrl) {
                 header("Authorization", "Bearer $apiToken")
                 contentType(ContentType.Application.Json)
-                setBody(QwenGenerationRequest(
-                    inputs = testPrompt,
-                    parameters = QwenParameters(
-                        max_new_tokens = 10,
-                        temperature = 0.1
+                setBody(SummarizationRequest(
+                    inputs = testText,
+                    parameters = SummarizationParameters(
+                        max_length = 50,
+                        min_length = 10
                     )
                 ))
             }
@@ -212,7 +276,23 @@ Say "Connection successful" to test the API.
             
             response.status.isSuccess()
         } catch (e: Exception) {
-            logger.error("Failed to test Hugging Face connection", e)
+            when (e) {
+                is java.net.UnknownHostException -> {
+                    logger.error("DNS resolution failed for Hugging Face API: ${e.message}")
+                }
+                is java.net.ConnectException -> {
+                    logger.error("Connection failed to Hugging Face API: ${e.message}")
+                }
+                is java.nio.channels.UnresolvedAddressException -> {
+                    logger.error("Address resolution failed for Hugging Face API: ${e.message}")
+                }
+                is io.ktor.client.network.sockets.ConnectTimeoutException -> {
+                    logger.error("Connection timeout to Hugging Face API: ${e.message}")
+                }
+                else -> {
+                    logger.error("Failed to test Hugging Face connection: ${e::class.simpleName} - ${e.message}", e)
+                }
+            }
             false
         }
     }

@@ -61,9 +61,12 @@ fun main(args: Array<String>) = runBlocking {
         // Run the main workflow
         val report = agent.runWeeklyIntel(topics)
         
-        // Save report to file with timestamp
+        // Save report to file with timestamp in reports folder
         val timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
-        val filename = "weekly_report_$timestamp.md"
+        val filename = "reports/weekly_report_$timestamp.md"
+        
+        // Ensure reports directory exists
+        java.io.File("reports").mkdirs()
         java.io.File(filename).writeText(report)
         
         // Post to Telegram if requested

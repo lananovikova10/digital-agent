@@ -122,7 +122,7 @@ class ContentProcessingTools {
     }
 
     @Tool(customName = "summarize_articles")
-    @LLMDescription(description = "Generate AI-powered summaries for articles using Qwen model")
+    @LLMDescription(description = "Generate AI-powered summaries for articles using Qwen3-14B-Instruct model")
     suspend fun summarizeArticles(articles: List<Article>): List<Article> {
         logger.info("Generating summaries for {} articles", articles.size)
         

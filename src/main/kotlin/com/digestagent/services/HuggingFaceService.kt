@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 
 /**
- * Hugging Face API service for text summarization using Qwen models
+ * Hugging Face API service for text summarization using Qwen3-14B-Instruct model
  */
 class HuggingFaceService(
     private val apiToken: String
@@ -40,30 +40,31 @@ class HuggingFaceService(
         }
     }
     
-    // Using microsoft/DialoGPT-medium for better contextual summarization  
-    private val baseUrl = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+    // Using Qwen3-14B-Instruct for high-quality summarization
+    private val baseUrl = "https://api-inference.huggingface.co/models/Qwen/Qwen3-14B-Instruct"
     
     @Serializable
-    data class SummarizationRequest(
+    data class QwenRequest(
         val inputs: String,
-        val parameters: SummarizationParameters = SummarizationParameters()
+        val parameters: QwenParameters = QwenParameters()
     )
     
     @Serializable
-    data class SummarizationParameters(
-        val max_length: Int = 150,
-        val min_length: Int = 30,
-        val do_sample: Boolean = false
+    data class QwenParameters(
+        val max_new_tokens: Int = 200,
+        val temperature: Double = 0.1,
+        val do_sample: Boolean = true,
+        val top_p: Double = 0.9
     )
     
     @Serializable
-    data class SummarizationResponse(
-        val summary_text: String? = null,
+    data class QwenResponse(
+        val generated_text: String? = null,
         val error: String? = null
     )
     
     /**
-     * Summarize an article using Qwen3-4B-Instruct model
+     * Summarize an article using Qwen3-14B-Instruct model
      */
     suspend fun summarizeArticle(
         title: String,
@@ -71,8 +72,8 @@ class HuggingFaceService(
         maxRetries: Int = 3
     ): String? {
         return try {
-            // Prepare content for BART summarization
-            val textToSummarize = prepareContentForSummarization(title, content)
+            // Prepare prompt for Qwen3 summarization
+            val prompt = createSummarizationPrompt(title, content)
             
             logger.debug("Summarizing article: {} (content length: {})", title, content.length)
             
@@ -81,7 +82,7 @@ class HuggingFaceService(
                     val response = httpClient.post(baseUrl) {
                         header("Authorization", "Bearer $apiToken")
                         contentType(ContentType.Application.Json)
-                        setBody(SummarizationRequest(inputs = textToSummarize))
+                        setBody(QwenRequest(inputs = prompt))
                     }
                     
                     if (response.status == HttpStatusCode.ServiceUnavailable) {
@@ -100,12 +101,13 @@ class HuggingFaceService(
                         return null
                     }
                     
-                    val apiResponse = response.body<List<SummarizationResponse>>()
-                    val summaryText = apiResponse.firstOrNull()?.summary_text?.trim()
+                    val apiResponse = response.body<List<QwenResponse>>()
+                    val generatedText = apiResponse.firstOrNull()?.generated_text?.trim()
                     
-                    if (!summaryText.isNullOrBlank()) {
+                    if (!generatedText.isNullOrBlank()) {
                         logger.debug("Successfully summarized article: {}", title)
-                        return cleanupSummary(summaryText)
+                        val extractedSummary = extractSummaryFromGeneration(generatedText, prompt)
+                        return cleanupSummary(extractedSummary)
                     } else {
                         logger.warn("Empty generation received for article: {}", title)
                     }
@@ -143,23 +145,48 @@ class HuggingFaceService(
     }
     
     /**
-     * Prepare content for BART summarization
+     * Create a structured prompt for Qwen3 summarization
      */
-    private fun prepareContentForSummarization(title: String, content: String): String {
-        // Limit content to avoid token limits for BART (512 tokens ≈ 2048 characters)
-        val maxLength = 2000
+    private fun createSummarizationPrompt(title: String, content: String): String {
+        // Qwen3-14B can handle longer context (32K tokens ≈ 128K characters)
+        val maxContentLength = 8000
         val cleanContent = content
             .replace(Regex("<[^>]*>"), "") // Remove HTML
             .replace(Regex("\\s+"), " ") // Normalize whitespace
             .trim()
         
-        val fullText = "$title. $cleanContent"
-        
-        return if (fullText.length > maxLength) {
-            fullText.take(maxLength) + "..."
+        val trimmedContent = if (cleanContent.length > maxContentLength) {
+            cleanContent.take(maxContentLength) + "..."
         } else {
-            fullText
+            cleanContent
         }
+        
+        val contentType = detectContentType(title, trimmedContent)
+        val guidance = getSummaryGuidance(contentType)
+        
+        return """<|im_start|>system
+You are an expert technical writer who creates concise, informative summaries for a technical audience.
+
+$guidance
+
+Rules:
+- Write 1-3 sentences maximum
+- Focus on the most important technical details and business impact
+- Be factual and objective
+- Start with the main point, not generic phrases
+- Do not repeat the title
+<|im_end|>
+
+<|im_start|>user
+Title: $title
+
+Content: $trimmedContent
+
+Provide a concise technical summary:
+<|im_end|>
+
+<|im_start|>assistant
+"""
     }
     
     /**
@@ -255,16 +282,21 @@ class HuggingFaceService(
      */
     suspend fun testConnection(): Boolean {
         return try {
-            val testText = "This is a simple test to check if the API connection is working properly for summarization."
+            val testPrompt = """<|im_start|>user
+Test message for API connection.
+<|im_end|>
+
+<|im_start|>assistant
+"""
             
             val response = httpClient.post(baseUrl) {
                 header("Authorization", "Bearer $apiToken")
                 contentType(ContentType.Application.Json)
-                setBody(SummarizationRequest(
-                    inputs = testText,
-                    parameters = SummarizationParameters(
-                        max_length = 50,
-                        min_length = 10
+                setBody(QwenRequest(
+                    inputs = testPrompt,
+                    parameters = QwenParameters(
+                        max_new_tokens = 50,
+                        temperature = 0.1
                     )
                 ))
             }
